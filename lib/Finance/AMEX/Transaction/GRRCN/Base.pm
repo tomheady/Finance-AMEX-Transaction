@@ -95,7 +95,7 @@ Finance::AMEX::Transaction::GRRCN::Base - Shared methods for AMEX reconciliation
 
 =head1 DESCRIPTION
 
-Don't use this module directly, it is the base module for GRRCN objects.
+Don't use this module directly, it is the base module for L<Finance::AMEX::Transaction::GRRCN::Header>, L<Finance::AMEX::Transaction::GRRCN::Summary>, L<Finance::AMEX::Transaction::GRRCN::TaxRecord>, L<Finance::AMEX::Transaction::GRRCN::Submission>, L<Finance::AMEX::Transaction::GRRCN::Transaction>, L<Finance::AMEX::Transaction::GRRCN::TxnPricing>, L<Finance::AMEX::Transaction::GRRCN::Chargeback>, L<Finance::AMEX::Transaction::GRRCN::Adjustment>, L<Finance::AMEX::Transaction::GRRCN::FeeRevenue>, L<Finance::AMEX::Transaction::GRRCN::Trailer>, and L<Finance::AMEX::Transaction::GRRCN::Unknown> objects.
 
 =method new
 

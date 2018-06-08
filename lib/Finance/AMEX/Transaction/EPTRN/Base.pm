@@ -3,7 +3,7 @@ package Finance::AMEX::Transaction::EPTRN::Base;
 use strict;
 use warnings;
 
-# ABSTRACT: Parse AMEX Chargeback Notification Files (EPTRN) Base methods
+# ABSTRACT: Parse AMEX Transaction/Invoice Level Reconciliation (EPTRN)
 
 sub new {
   my ($class, %props) = @_;
@@ -25,7 +25,6 @@ sub _get_column {
 
   # if the line is not long enough to handle the start of the field,
   # it is an optional field that we don't have
-#  warn(sprintf(q{%s => %s < %s}, $field || 'UNDEF', length($self->{_line}) || 'UNDEF', $map->[0] || 'UNDEF'));
   if (length($self->{_line}) < $map->[0]) {
     return '';
   }
@@ -43,11 +42,11 @@ __END__
 
 =head1 NAME
 
-Finance::AMEX::Transaction::EPTRN::Base - Shared methods for AMEX reconciliation file records.
+Finance::AMEX::Transaction::EPTRN::Base - Shared methods for AMEX Transaction/Invoice Level Reconciliation (EPTRN) records.
 
 =head1 DESCRIPTION
 
-Don't use this module directly, it is the base module for EPTRN::Header, EPTRN::Detail::*, and EPTRN::Trailer objects.
+Don't use this module directly, it is the base module for L<Finance::AMEX::Transaction::EPTRN::Header>, L<Finance::AMEX::Transaction::EPTRN::Summary>, L<Finance::AMEX::Transaction::EPTRN::Detail::ChargeSummary>, L<Finance::AMEX::Transaction::EPTRN::Detail::RecordSummary>, L<Finance::AMEX::Transaction::EPTRN::Detail::Chargeback>, L<Finance::AMEX::Transaction::EPTRN::Detail::Adjustment>, L<Finance::AMEX::Transaction::EPTRN::Detail::Other>, L<Finance::AMEX::Transaction::EPTRN::Trailer>, or L<Finance::AMEX::Transaction::EPTRN::Unknown> objects.
 
 =method new
 

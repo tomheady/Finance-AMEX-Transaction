@@ -100,7 +100,7 @@ This module parses AMEX transaction files and returns object that are appropriat
 
 =method new
 
-Creates a new Finance::AMEX::Transaction object.  Required options are C<file_type>).
+Creates a new L<Finance::AMEX::Transaction> object.  Required options are C<file_type>).
 
  my $cbnot = Finance::AMEX::Transaction->new(file_type => 'CBNOT');
 
@@ -114,29 +114,29 @@ Sets the type of file that we are parsing.  Valid values are:
 
 = EPRAW
 
-returns Finance::AMEX::Transaction::EPRAW objects.
+returns L<Finance::AMEX::Transaction::EPRAW> objects.
 
 = EPPRC
 
-returns Finance::AMEX::Transaction::EPPRC objects.
+returns L<Finance::AMEX::Transaction::EPPRC> objects.
 
-= EPA
+= EPTRN
 
-returns Finance::AMEX::Transaction::EPA objects.
+returns L<Finance::AMEX::Transaction::EPTRN> objects.
 
 = CBNOT
 
-returns Finance::AMEX::Transaction::CBNOT objects.
+returns L<Finance::AMEX::Transaction::CBNOT> objects.
 
 = GRRCN
 
-returns Finance::AMEX::Transaction::GRRCN objects.
+returns L<Finance::AMEX::Transaction::GRRCN> objects.
 
 =end :list
 
 = C<file_format>
 
-Sets the format of the file that we are parsing.  Currently only useful for GRRCN files.  This can usually be auto-detected.
+Sets the format of the file that we are parsing.  Currently only useful for L<Finance::AMEX::Transaction::GRRCN> files.  This can usually be auto-detected.
 
 Should be one of FIXED, CSV, TSV.
 

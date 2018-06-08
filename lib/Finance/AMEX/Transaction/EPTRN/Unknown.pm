@@ -28,7 +28,7 @@ __END__
 
 =head1 NAME
 
-Finance::AMEX::Transaction::EPTRN::Unknown - Object methods for unknown AMEX reconciliation file records.
+Finance::AMEX::Transaction::EPTRN::Unknown - Object methods for unknown AMEX Transaction/Invoice Level Reconciliation (EPTRN) Unknown Rows
 
 =head1 DESCRIPTION
 
@@ -38,7 +38,7 @@ You should only be getting this type of object if it is an unknown or invalid EP
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::EPTRN::Unknown object.
+Returns a new L<Finance::AMEX::Transaction::EPTRN::Unknown> object.
 
  my $record = Finance::AMEX::Transaction::EPTRN::Unknown->new(line => $line);
 

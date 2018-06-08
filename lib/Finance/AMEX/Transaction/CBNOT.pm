@@ -64,44 +64,48 @@ Finance::AMEX::Transaction::CBNOT - Parse AMEX Chargeback Notification Files (CB
 
 =head1 DESCRIPTION
 
-This module parses AMEX Chargeback Notification Files (CBNOT) returns object that are appropriate for the line that it was asked to parse.
+This module parses AMEX Chargeback Notification Files (CBNOT) and returns an object which is appropriate for the line that it was asked to parse.
 
-You would not normally be calling this module directly, it is merely a router to the correct object type that is returned to F<Finance::AMEX::Transaction>'s getline method.
+You would not normally be calling this module directly, it is merely a router to the correct object type that is returned to L<Finance::AMEX::Transaction>'s getline method.
 
 Object returned are one of:
 
 =begin :list
 
-= F<Finance::AMEX::Transaction::CBNOT::Header>
+= L<Finance::AMEX::Transaction::CBNOT::Header>
 
-Header lines.
+Header Rows
 
-= F<Finance::AMEX::Transaction::CBNOT::Detail>
+ print $record->type; # HEADER
 
-Detail lines.
+= L<Finance::AMEX::Transaction::CBNOT::Detail>
 
-= F<Finance::AMEX::Transaction::CBNOT::Trailer>
+Detail Rows
 
-Trailer lines.
+ print $record->type; # DETAIL
 
-= F<Finance::AMEX::Transaction::CBNOT::Unknown>
+= L<Finance::AMEX::Transaction::CBNOT::Trailer>
+
+Trailer Rows
+
+ print $record->type; # TRAILER
+
+= L<Finance::AMEX::Transaction::CBNOT::Unknown>
 
 Unknown lines.
+
+ print $record->type; # UNKNOWN
 
 =end :list
 
 =method new
 
-Returns a Finance::AMEX::Transaction::CBNOT object.
+Returns a L<Finance::AMEX::Transaction::CBNOT> object.
 
  my $cbnot = Finance::AMEX::Transaction::CBNOT->new;
 
 =method parse_line
 
-Returns one of the Header, Detail, Trailer, or Unknown records depending on the contents of the line.
+Returns one of the L<Finance::AMEX::Transaction::CBNOT::Header>, L<Finance::AMEX::Transaction::CBNOT::Detail>, L<Finance::AMEX::Transaction::CBNOT::Trailer>, or L<Finance::AMEX::Transaction::CBNOT::Unknown> records depending on the contents of the line.
 
  my $record = $cbnot->parse_line('line from a cbnot file');
-
-
-
-

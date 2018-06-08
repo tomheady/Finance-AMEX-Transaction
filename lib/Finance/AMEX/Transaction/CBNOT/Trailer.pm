@@ -50,36 +50,6 @@ sub CCYYDDD                 {return $_[0]->_get_column('CCYYDDD')}
 sub HHMMSS                  {return substr($_[0]->_get_column('HHMMSS'), 1, 6)}
 sub STARS_FILESEQ_NB        {return $_[0]->_get_column('STARS_FILESEQ_NB')}
 
-
-# #========================
-# CBNOT File Trailer Record
-# -------------------------
-# 0-1 REC_TYPE constant "T"
-# 2-101 AMEX_APPL_AREA internal American Express data
-#   2-3 APPLICATION_SYSTEM_CODE Constant "01"
-#   4-5 FILE_TYPE_CODE Constant "01"
-#   6-13 FILE_CREATION_DATE YYYYMMDD
-#   14-19 FILLER
-#   20-21 FILE_SEQUENCE_NUMBER American Express - assigned processing control number, currently unused (zero filled)
-#   22-26 JULIAN_DATE Currently unused (zero filled)
-#   27-35 AMEX_TOTAL_RECORDS Total record count
-#   36-44 CONFIRM_RECORD_COUNT Total record count
-#   45-49 AMEX_JOB_NUMBER American Express - assigned job number, currently unused (character space filled)
-#   50-101 FILLER
-# 102-107 SAID the American Express-assigned, six-character, Service Access ID (SAID).
-# 108-112 constant literal "CBNOT"
-# 113-119 file creation date. CCYYDDD
-#   CC = Century
-#   YY = Year
-#   DDD = Day (Julian date)
-# 120-126 file creation time. 0HHMMSS
-#   0 = One-digit filler character (zero)
-#   HH = Hour (24 hour clock)
-#   MM = Minute
-#   SS = Second
-# 127-129 STARS_FILESEQ_NB contains the STARS * file sequence number. This constant number is set to “001”.
-# 130-2202 FILLER
-
 1;
 
 __END__

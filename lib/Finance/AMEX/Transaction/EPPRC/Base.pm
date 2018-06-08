@@ -25,7 +25,6 @@ sub _get_column {
 
   # if the line is not long enough to handle the start of the field,
   # it is an optional field that we don't have
-#  warn(sprintf(q{%s => %s < %s}, $field || 'UNDEF', length($self->{_line}) || 'UNDEF', $map->[0] || 'UNDEF'));
   if (length($self->{_line}) < $map->[0]) {
     return '';
   }
@@ -47,7 +46,7 @@ Finance::AMEX::Transaction::EPPRC::Base - Shared methods for AMEX reconciliation
 
 =head1 DESCRIPTION
 
-Don't use this module directly, it is the base module for EPPRC::Header, EPPRC::Detail::*, and EPPRC::Trailer objects.
+Don't use this module directly, it is the base module for L<Finance::AMEX::Transaction::EPPRC::Header>, L<Finance::AMEX::Transaction::EPPRC::Summary>, L<Finance::AMEX::Transaction::EPPRC::Detail::ChargeSummary>, L<Finance::AMEX::Transaction::EPPRC::Detail::ChargeSummaryPricing>, L<Finance::AMEX::Transaction::EPPRC::Detail::RecordSummary>, L<Finance::AMEX::Transaction::EPPRC::Detail::RecordSummaryPricing>, L<Finance::AMEX::Transaction::EPPRC::Detail::Chargeback>, L<Finance::AMEX::Transaction::EPPRC::Detail::Adjustment>, L<Finance::AMEX::Transaction::EPPRC::Detail::Other>, L<Finance::AMEX::Transaction::EPPRC::Trailer>, or L<Finance::AMEX::Transaction::EPPRC::Unknown> objects.
 
 =method new
 

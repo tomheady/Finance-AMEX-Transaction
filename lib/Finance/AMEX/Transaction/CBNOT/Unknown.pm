@@ -38,7 +38,7 @@ You should only be getting this type of object if it is an unknown or invalid CB
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::CBNOT::Unknown object.
+Returns a new F<Finance::AMEX::Transaction::CBNOT::Unknown> object.
 
  my $record = Finance::AMEX::Transaction::CBNOT::Unknown->new(line => $line);
 

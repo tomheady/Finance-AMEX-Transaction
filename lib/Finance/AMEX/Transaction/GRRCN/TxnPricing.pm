@@ -3,7 +3,7 @@ package Finance::AMEX::Transaction::GRRCN::TxnPricing;
 use strict;
 use warnings;
 
-# ABSTRACT: Parse AMEX Global Reconciliation (GRRCN) transaction or ROC pricing Rows
+# ABSTRACT: Parse AMEX Global Reconciliation (GRRCN) Transaction or ROC pricing Rows
 
 use base 'Finance::AMEX::Transaction::GRRCN::Base';
 
@@ -88,7 +88,7 @@ You would not normally be calling this module directly, it is one of the possibl
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::GRRCN::TxnPricing object.
+Returns a new L<Finance::AMEX::Transaction::GRRCN::TxnPricing> object.
 
  my $record = Finance::AMEX::Transaction::GRRCN::TxnPricing->new(line => $line);
 

@@ -91,7 +91,7 @@ You would not normally be calling this module directly, it is one of the possibl
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::EPTRN::Detail::Other object.
+Returns a new L<Finance::AMEX::Transaction::EPTRN::Detail::Other> object.
 
  my $record = Finance::AMEX::Transaction::EPTRN::Detail::Other->new(line => $line);
 

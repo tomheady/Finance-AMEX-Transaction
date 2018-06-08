@@ -74,7 +74,6 @@ sub SERVICE_FEE_RATE                   {return $_[0]->_get_column('SERVICE_FEE_R
 sub BATCH_CODE                         {return $_[0]->_get_column('BATCH_CODE')}
 sub BILL_CODE                          {return $_[0]->_get_column('BILL_CODE')}
 
-
 1;
 
 __END__
@@ -112,7 +111,7 @@ You would not normally be calling this module directly, it is one of the possibl
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::GRRCN::Adjustment object.
+Returns a new L<Finance::AMEX::Transaction::GRRCN::Adjustment> object.
 
  my $record = Finance::AMEX::Transaction::GRRCN::Adjustment->new(line => $line);
 

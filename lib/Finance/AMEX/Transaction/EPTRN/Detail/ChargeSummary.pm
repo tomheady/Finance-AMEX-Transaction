@@ -107,7 +107,7 @@ You would not normally be calling this module directly, it is one of the possibl
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::EPTRN::Detail::ChargeSummary object.
+Returns a new L<Finance::AMEX::Transaction::EPTRN::Detail::ChargeSummary> object.
 
  my $record = Finance::AMEX::Transaction::EPTRN::Detail::ChargeSummary->new(line => $line);
 

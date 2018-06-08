@@ -37,7 +37,7 @@ __END__
 
 =head1 NAME
 
-Finance::AMEX::Transaction::EPTRN::Footer - Object methods for AMEX Reconciliation file footer records.
+Finance::AMEX::Transaction::EPTRN::Footer - Object methods for AMEX Transaction/Invoice Level Reconciliation (EPTRN) Trailer Rows
 
 =head1 SYNOPSIS
 
@@ -66,7 +66,7 @@ You would not normally be calling this module directly, it is one of the possibl
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::EPTRN::Trailer object.
+Returns a new L<Finance::AMEX::Transaction::EPTRN::Trailer> object.
 
  my $record = Finance::AMEX::Transaction::EPTRN::Trailer->new(line => $line);
 

@@ -38,7 +38,7 @@ You should only be getting this type of object if it is an unknown or invalid EP
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::EPPRC::Unknown object.
+Returns a new L<Finance::AMEX::Transaction::EPPRC::Unknown> object.
 
  my $record = Finance::AMEX::Transaction::EPPRC::Unknown->new(line => $line);
 

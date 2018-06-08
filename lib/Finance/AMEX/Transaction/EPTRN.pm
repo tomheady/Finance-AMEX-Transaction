@@ -86,3 +86,103 @@ sub parse_line {
 }
 
 1;
+
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+Finance::AMEX::Transaction::EPTRN - Parse AMEX Transaction/Invoice Level Reconciliation (EPTRN)
+
+=head1 SYNOPSIS
+
+  use Finance::AMEX::Transaction;
+
+  my $eptrn = Finance::AMEX::Transaction->new(file_type => 'EPTRN');
+  open my $fh, '<', '/path to EPTRN file' or die "cannot open EPTRN file: $!";
+
+  while (my $record = $eptrn->getline($fh)) {
+
+    if ($record->type eq 'TRAILER') {
+      print $record->FILE_CREATION_DATE . "\n";
+    }
+  }
+
+=head1 DESCRIPTION
+
+This module parses AMEX Transaction/Invoice Level Reconciliation (EPTRN) files and returns objects which are appropriate for the line that it was asked to parse.
+
+You would not normally be calling this module directly, it is merely a router to the correct object type that is returned to L<Finance::AMEX::Transaction>'s getline method.
+
+Object returned are one of:
+
+=begin :list
+
+= L<Finance::AMEX::Transaction::EPTRN::Header>
+
+Header Rows
+
+ print $record->type; # HEADER
+
+= L<Finance::AMEX::Transaction::EPTRN::Summary>
+
+Summary Rows
+
+ print $record->type; # SUMMARY
+
+= L<Finance::AMEX::Transaction::EPTRN::Detail::ChargeSummary>
+
+Summary of Charge (SOC) Detail Rows
+
+ print $record->type; # SOC_DETAIL
+
+= L<Finance::AMEX::Transaction::EPTRN::Detail::RecordSummary>
+
+Record of Charge (ROC) Detail Rows
+
+ print $record->type; # ROC_DETAIL
+
+= L<Finance::AMEX::Transaction::EPTRN::Detail::Chargeback>
+
+Chargeback Detail Rows
+
+ print $record->type; # CHARGEBACK_DETAIL
+
+= L<Finance::AMEX::Transaction::EPTRN::Detail::Adjustment>
+
+Adjustment Detail Rows
+
+ print $record->type; # ADJUSTMENT_DETAIL
+
+= L<Finance::AMEX::Transaction::EPTRN::Detail::Other>
+
+Other Fees and Revenues Detail Rows
+
+ print $record->type; # OTHER_DETAIL
+
+= L<Finance::AMEX::Transaction::EPTRN::Trailer>
+
+Trailer Rows
+
+ print $record->type; # TRAILER
+
+= L<Finance::AMEX::Transaction::EPTRN::Unknown>
+
+Unknown lines.
+
+ print $record->type; # UNKNOWN
+
+=end :list
+
+=method new
+
+Returns a L<Finance::AMEX::Transaction::EPTRN> object.
+
+ my $eptrn = Finance::AMEX::Transaction::EPTRN->new;
+
+=method parse_line
+
+Returns one of the L<Finance::AMEX::Transaction::EPTRN::Header>, L<Finance::AMEX::Transaction::EPTRN::Summary>, L<Finance::AMEX::Transaction::EPTRN::Detail::ChargeSummary>, L<Finance::AMEX::Transaction::EPTRN::Detail::RecordSummary>, L<Finance::AMEX::Transaction::EPTRN::Detail::Chargeback>, L<Finance::AMEX::Transaction::EPTRN::Detail::Adjustment>, L<Finance::AMEX::Transaction::EPTRN::Detail::Other>, L<Finance::AMEX::Transaction::EPTRN::Trailer>, or L<Finance::AMEX::Transaction::EPTRN::Unknown> records depending on the contents of the line.
+
+ my $record = $eptrn->parse_line('line from a eptrn file');

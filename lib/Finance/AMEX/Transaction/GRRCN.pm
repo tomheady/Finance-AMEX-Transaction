@@ -110,3 +110,115 @@ sub detect_line_type {
 }
 
 1;
+
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+Finance::AMEX::Transaction::GRRCN - Parse AMEX Chargeback Notification Files (GRRCN)
+
+=head1 SYNOPSIS
+
+  use Finance::AMEX::Transaction;
+
+  my $grrcn = Finance::AMEX::Transaction->new(file_type => 'GRRCN');
+  open my $fh, '<', '/path to GRRCN file' or die "cannot open GRRCN file: $!";
+
+  while (my $record = $grrcn->getline($fh)) {
+
+    if ($record->type eq 'TRAILER') {
+      print $record->FILE_CREATION_DATE . "\n";
+    }
+  }
+
+=head1 DESCRIPTION
+
+This module parses AMEX Global Reconciliation (GRRCN) files and returns an object which is appropriate for the line that it was asked to parse.
+
+You would not normally be calling this module directly, it is merely a router to the correct object type that is returned to L<Finance::AMEX::Transaction>'s getline method.
+
+Object returned are one of:
+
+=begin :list
+
+= L<Finance::AMEX::Transaction::GRRCN::Header>
+
+Header Rows
+
+ print $record->type; # HEADER
+
+= L<Finance::AMEX::Transaction::GRRCN::Summary>
+
+Summary Rows
+
+ print $record->type; # SUMMARY
+
+= L<Finance::AMEX::Transaction::GRRCN::TaxRecord>
+
+TaxRecord Rows
+
+ print $record->type; # TAXRECORD
+
+= L<Finance::AMEX::Transaction::GRRCN::Submission>
+
+Submission or summary of charge (SOC) Rows
+
+ print $record->type; # SUBMISSION
+
+= L<Finance::AMEX::Transaction::GRRCN::Transaction>
+
+Transaction or summary of charge (SOC) Rows
+
+ print $record->type; # TRANSACTION
+
+= L<Finance::AMEX::Transaction::GRRCN::TxnPricing>
+
+transaction or ROC pricing Rows
+
+ print $record->type; # TXNPRICING
+
+= L<Finance::AMEX::Transaction::GRRCN::Chargeback>
+
+Chargeback Rows
+
+ print $record->type; # CHARGEBACK
+
+= L<Finance::AMEX::Transaction::GRRCN::Adjustment>
+
+Adjustment Rows
+
+ print $record->type; # ADJUSTMENT
+
+= L<Finance::AMEX::Transaction::GRRCN::FeeRevenue>
+
+Fees and Revenues Record
+
+ print $record->type; # FEEREVENUE
+
+= L<Finance::AMEX::Transaction::GRRCN::Trailer>
+
+Trailer Rows
+
+ print $record->type; # TRAILER
+
+= L<Finance::AMEX::Transaction::GRRCN::Unknown>
+
+Unknown lines.
+
+ print $record->type; # UNKNOWN
+
+=end :list
+
+=method new
+
+Returns a L<Finance::AMEX::Transaction::GRRCN> object.
+
+ my $grrcn = Finance::AMEX::Transaction::GRRCN->new;
+
+=method parse_line
+
+Returns one of the L<Finance::AMEX::Transaction::GRRCN::Header>, L<Finance::AMEX::Transaction::GRRCN::Summary>, L<Finance::AMEX::Transaction::GRRCN::TaxRecord>, L<Finance::AMEX::Transaction::GRRCN::Submission>, L<Finance::AMEX::Transaction::GRRCN::Transaction>, L<Finance::AMEX::Transaction::GRRCN::TxnPricing>, L<Finance::AMEX::Transaction::GRRCN::Chargeback>, L<Finance::AMEX::Transaction::GRRCN::Adjustment>, L<Finance::AMEX::Transaction::GRRCN::FeeRevenue>, L<Finance::AMEX::Transaction::GRRCN::Trailer>, or L<Finance::AMEX::Transaction::GRRCN::Unknown> records depending on the contents of the line.
+
+ my $record = $grrcn->parse_line('line from a grrcn file');

@@ -57,7 +57,7 @@ __END__
 
 =head1 NAME
 
-Finance::AMEX::Transaction::EPTRN::Summary - Object methods for AMEX Reconciliation file summary records.
+Finance::AMEX::Transaction::EPTRN::Summary - Object methods for AMEX Transaction/Invoice Level Reconciliation (EPTRN) Summary Rows
 
 =head1 SYNOPSIS
 
@@ -86,7 +86,7 @@ You would not normally be calling this module directly, it is one of the possibl
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::EPTRN::Summary object.
+Returns a new L<Finance::AMEX::Transaction::EPTRN::Summary> object.
 
  my $record = Finance::AMEX::Transaction::EPTRN::Summary->new(line => $line);
 

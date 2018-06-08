@@ -76,3 +76,101 @@ sub parse_line {
 }
 
 1;
+
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+Finance::AMEX::Transaction::EPRAW - Parse AMEX Reconciliation Files (EPRAW)
+
+=head1 SYNOPSIS
+
+  use Finance::AMEX::Transaction;
+
+  my $epraw = Finance::AMEX::Transaction->new(file_type => 'EPRAW');
+  open my $fh, '<', '/path to EPRAW file' or die "cannot open EPRAW file: $!";
+
+  while (my $record = $epraw->getline($fh)) {
+
+    if ($record->type eq 'TRAILER') {
+      print $record->FILE_CREATION_DATE . "\n";
+    }
+  }
+
+=head1 DESCRIPTION
+
+This module parses AMEX Reconciliation Files (EPRAW) and returns an object which is appropriate for the line that it was asked to parse.
+
+You would not normally be calling this module directly, it is merely a router to the correct object type that is returned to L<Finance::AMEX::Transaction>'s getline method.
+
+Object returned are one of:
+
+=begin :list
+
+= L<Finance::AMEX::Transaction::EPRAW::Header>
+
+Header Rows
+
+ print $record->type; # HEADER
+
+= L<Finance::AMEX::Transaction::EPRAW::Summary>
+
+Summary Rows
+
+ print $record->type; # SUMMARY
+
+= L<Finance::AMEX::Transaction::EPRAW::Detail::ChargeSummary>
+
+Summary of Charge (SOC) Detail Rows
+
+ print $record->type; # SOC_DETAIL
+
+= L<Finance::AMEX::Transaction::EPRAW::Detail::Chargeback>
+
+Chargeback Detail Rows
+
+ print $record->type; # CHARGEBACK_DETAIL
+
+= L<Finance::AMEX::Transaction::EPRAW::Detail::Adjustment>
+
+Adjustment Detail Rows
+
+ print $record->type; # ADJUSTMENT_DETAIL
+
+= L<Finance::AMEX::Transaction::EPRAW::Detail::Other>
+
+Other Detail Rows
+
+ print $record->type; # OTHER_DETAIL
+
+= L<Finance::AMEX::Transaction::EPRAW::Trailer>
+
+Trailer Rows
+
+ print $record->type; # TRAILER
+
+= L<Finance::AMEX::Transaction::EPRAW::Unknown>
+
+Unknown Rows
+
+ print $record->type; # UNKNOWN
+
+=end :list
+
+=method new
+
+Returns a L<Finance::AMEX::Transaction::EPRAW> object.
+
+ my $epraw = Finance::AMEX::Transaction::EPRAW->new;
+
+=method parse_line
+
+Returns one of the L<Finance::AMEX::Transaction::EPRAW::Header>, L<Finance::AMEX::Transaction::EPRAW::Summary>, L<Finance::AMEX::Transaction::EPRAW::Detail::ChargeSummary>, L<Finance::AMEX::Transaction::EPRAW::Detail::Chargeback>, L<Finance::AMEX::Transaction::EPRAW::Detail::Adjustment>, L<Finance::AMEX::Transaction::EPRAW::Detail::Other>, L<Finance::AMEX::Transaction::EPRAW::Trailer>, or L<Finance::AMEX::Transaction::EPRAW::Unknown> records depending on the contents of the line.
+
+ my $record = $epraw->parse_line('line from a epraw file');
+
+
+
+

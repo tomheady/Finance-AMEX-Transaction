@@ -45,7 +45,7 @@ Finance::AMEX::Transaction::CBNOT::Base - Shared methods for AMEX chargeback not
 
 =head1 DESCRIPTION
 
-Don't use this module directly, it is the base module for CBNOT::Header, CBNOT::Detail, and CBNOT::Trailer objects.
+Don't use this module directly, it is the base module for L<Finance::AMEX::Transaction::CBNOT::Header>, L<Finance::AMEX::Transaction::CBNOT::Detail>, and L<Finance::AMEX::Transaction::CBNOT::Trailer> objects.
 
 =method new
 

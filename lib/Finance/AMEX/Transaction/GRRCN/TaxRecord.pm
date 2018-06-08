@@ -25,7 +25,7 @@ sub field_map {
   };
 }
 
-sub type {return 'SUMMARY'}
+sub type {return 'TAXRECORD'}
 
 sub RECORD_TYPE                     {return $_[0]->_get_column('RECORD_TYPE')}
 sub PAYEE_MERCHANT_ID               {return $_[0]->_get_column('PAYEE_MERCHANT_ID')}
@@ -79,7 +79,7 @@ You would not normally be calling this module directly, it is one of the possibl
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::GRRCN::TaxRecord object.
+Returns a new L<Finance::AMEX::Transaction::GRRCN::TaxRecord> object.
 
  my $record = Finance::AMEX::Transaction::GRRCN::TaxRecord->new(line => $line);
 

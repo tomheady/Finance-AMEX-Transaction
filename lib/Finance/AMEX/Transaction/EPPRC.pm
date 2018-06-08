@@ -92,3 +92,121 @@ sub parse_line {
 }
 
 1;
+
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+Finance::AMEX::Transaction::EPPRC - Parse AMEX Transaction/Invoice Level Reconciliation (EPPRC)
+
+=head1 SYNOPSIS
+
+  use Finance::AMEX::Transaction;
+
+  my $epprc = Finance::AMEX::Transaction->new(file_type => 'EPPRC');
+  open my $fh, '<', '/path to EPPRC file' or die "cannot open EPPRC file: $!";
+
+  while (my $record = $epprc->getline($fh)) {
+
+    if ($record->type eq 'TRAILER') {
+      print $record->FILE_CREATION_DATE . "\n";
+    }
+  }
+
+=head1 DESCRIPTION
+
+This module parses AMEX Transaction/Invoice Level Reconciliation (EPPRC) files and  returns an object
+which is appropriate for the line that it was asked to parse.
+
+You would not normally be calling this module directly, it is merely a router to the correct object type
+that is returned to L<Finance::AMEX::Transaction>'s getline method.
+
+Object returned are one of:
+
+=begin :list
+
+= L<Finance::AMEX::Transaction::EPPRC::Header>
+
+Header Rows
+
+ print $record->type; # HEADER
+
+= L<Finance::AMEX::Transaction::EPPRC::Summary>
+
+Summary Rows
+
+ print $record->type; # SUMMARY
+
+= L<Finance::AMEX::Transaction::EPPRC::Detail::ChargeSummary>
+
+Summary of Charge (SOC) Detail Rows
+
+ print $record->type; # SOC_DETAIL
+
+= L<Finance::AMEX::Transaction::EPPRC::Detail::ChargeSummaryPricing>
+
+Summary of Charge (SOC) Level Pricing Rows
+
+ print $record->type; # SOC_PRICING
+
+= L<Finance::AMEX::Transaction::EPPRC::Detail::RecordSummary>
+
+Record of Charge (ROC) Detail Rows
+
+ print $record->type; # ROC_DETAIL
+
+= L<Finance::AMEX::Transaction::EPPRC::Detail::RecordSummaryPricing>
+
+Record of Charge (ROC) Level Pricing Record Rows
+
+ print $record->type; # ROC_PRICING
+
+= L<Finance::AMEX::Transaction::EPPRC::Detail::Chargeback>
+
+Chargeback Detail Rows
+
+ print $record->type; # CHARGEBACK_DETAIL
+
+= L<Finance::AMEX::Transaction::EPPRC::Detail::Adjustment>
+
+Adjustment Detail Rows
+
+ print $record->type; # ADJUSTMENT_DETAIL
+
+= L<Finance::AMEX::Transaction::EPPRC::Detail::Other>
+
+Other Fees and Revenues Detail Rows
+
+ print $record->type; # OTHER_DETAIL
+
+= L<Finance::AMEX::Transaction::EPPRC::Trailer>
+
+Trailer Rows
+
+ print $record->type; # TRAILER
+
+= L<Finance::AMEX::Transaction::EPPRC::Unknown>
+
+Unknown Rows
+
+ print $record->type; # UNKNOWN
+
+=end :list
+
+=method new
+
+Returns a L<Finance::AMEX::Transaction::EPPRC> object.
+
+ my $epprc = Finance::AMEX::Transaction::EPPRC->new;
+
+=method parse_line
+
+Returns one of the L<Finance::AMEX::Transaction::EPPRC::Header>, L<Finance::AMEX::Transaction::EPPRC::Summary>, L<Finance::AMEX::Transaction::EPPRC::Detail::ChargeSummary>, L<Finance::AMEX::Transaction::EPPRC::Detail::ChargeSummaryPricing>, L<Finance::AMEX::Transaction::EPPRC::Detail::RecordSummary>, L<Finance::AMEX::Transaction::EPPRC::Detail::RecordSummaryPricing>, L<Finance::AMEX::Transaction::EPPRC::Detail::Chargeback>, L<Finance::AMEX::Transaction::EPPRC::Detail::Adjustment>, L<Finance::AMEX::Transaction::EPPRC::Detail::Other>, L<Finance::AMEX::Transaction::EPPRC::Trailer>, or L<Finance::AMEX::Transaction::EPPRC::Unknown> records depending on the contents of the row.
+
+ my $record = $epprc->parse_line('line from a epprc file');
+
+
+
+

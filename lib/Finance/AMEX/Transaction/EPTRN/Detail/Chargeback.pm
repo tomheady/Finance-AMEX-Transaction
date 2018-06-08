@@ -95,7 +95,7 @@ You would not normally be calling this module directly, it is one of the possibl
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::EPTRN::Detail::Chargeback object.
+Returns a new F<Finance::AMEX::Transaction::EPTRN::Detail::Chargeback> object.
 
  my $record = Finance::AMEX::Transaction::EPTRN::Detail::Chargeback->new(line => $line);
 

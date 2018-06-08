@@ -46,7 +46,7 @@ Finance::AMEX::Transaction::EPRAW::Base - Shared methods for AMEX reconciliation
 
 =head1 DESCRIPTION
 
-Don't use this module directly, it is the base module for EPRAW::Header, EPRAW::Detail, and EPRAW::Trailer objects.
+Don't use this module directly, it is the base module for L<Finance::AMEX::Transaction::EPRAW::Header>, L<Finance::AMEX::Transaction::EPRAW::Summary>, L<Finance::AMEX::Transaction::Detail::Adjustment>, L<Finance::AMEX::Transaction::Detail::Chargeback>, L<Finance::AMEX::Transaction::Detail::ChargeSummary>, L<Finance::AMEX::Transaction::Detail::Other>, and L<Finance::AMEX::Transaction::EPRAW::Trailer> objects.
 
 =method new
 

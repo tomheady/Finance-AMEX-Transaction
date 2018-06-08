@@ -3,7 +3,7 @@ package Finance::AMEX::Transaction::GRRCN::FeeRevenue;
 use strict;
 use warnings;
 
-# ABSTRACT: Parse AMEX Global Reconciliation (GRRCN) Adjustment Rows
+# ABSTRACT: Parse AMEX Global Reconciliation (GRRCN) Fees and Revenues Record Rows
 
 use base 'Finance::AMEX::Transaction::GRRCN::Base';
 
@@ -86,7 +86,7 @@ You would not normally be calling this module directly, it is one of the possibl
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::GRRCN::FeeRevenue object.
+Returns a new L<Finance::AMEX::Transaction::GRRCN::FeeRevenue> object.
 
  my $record = Finance::AMEX::Transaction::GRRCN::FeeRevenue->new(line => $line);
 

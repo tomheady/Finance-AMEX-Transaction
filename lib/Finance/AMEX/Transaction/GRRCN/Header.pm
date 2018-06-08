@@ -66,7 +66,7 @@ You would not normally be calling this module directly, it is one of the possibl
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::GRRCN::Header object.
+Returns a new L<Finance::AMEX::Transaction::GRRCN::Header> object.
 
  my $record = Finance::AMEX::Transaction::GRRCN::Header->new(line => $line);
 

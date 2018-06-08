@@ -38,28 +38,6 @@ sub CCYYDDD                 {return $_[0]->_get_column('CCYYDDD')}
 # and the return value
 sub HHMMSS                  {return substr($_[0]->_get_column('HHMMSS'), 1, 6)}
 
-# #========================
-# CBNOT File Header Record
-# ------------------------
-# 0-1 REC_TYPE constant "H"
-# 2-101 AMEX_APPL_AREA
-#   2-3 APPLICATION_SYSTEM_CODE
-#   4-5 FILE_TYPE_CODE
-#   6-13 FILE_CREATION_DATE
-#   14-101 FILLER
-# 102-107 SAID (Service Access ID)
-# 108-112 DATATYPE Service Access ID constant "CBNOT"
-# 113-119 CCYYDDD the date that American Express originally transmitted the file to the merchant
-#   CC = Century
-#   YY = Year
-#   DDD = Day (Julian date)
-# 120-126 0HHMMSS file creation time (24-hour format) when the file was prepared for transmission
-#   0 = One-digit filler character (zero)
-#   HH = Hour (24 hour clock)
-#   MM = Minute
-#   SS = Second
-# 127-2202 FILLER
-
 1;
 
 __END__
@@ -97,7 +75,7 @@ You would not normally be calling this module directly, it is one of the possibl
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::CBNOT::Header object.
+Returns a new L<Finance::AMEX::Transaction::CBNOT::Header> object.
 
  my $record = Finance::AMEX::Transaction::CBNOT::Header->new(line => $line);
 

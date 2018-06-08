@@ -88,10 +88,10 @@ Finance::AMEX::Transaction::EPTRN::Detail::RecordSummary - Object methods for AM
 
  use Finance::AMEX::Transaction;
 
- my $epraw = Finance::AMEX::Transaction->new(file_type => 'EPTRN');
+ my $eptrn = Finance::AMEX::Transaction->new(file_type => 'EPTRN');
  open my $fh, '<', '/path to EPTRN file' or die "cannot open EPTRN file: $!";
 
- while (my $record = $epraw->getline($fh)) {
+ while (my $record = $eptrn->getline($fh)) {
 
   if ($record->type eq 'ROC_DETAIL') {
     print $record->AMEX_PROCESS_DATE . "\n";
@@ -100,7 +100,7 @@ Finance::AMEX::Transaction::EPTRN::Detail::RecordSummary - Object methods for AM
 
  # to parse a single line
 
- my $record = $epraw->parse_line('line from an EPTRN  file');
+ my $record = $eptrn->parse_line('line from an EPTRN  file');
  if ($record->type eq 'ROC_DETAIL') {
    ...
  }
@@ -111,7 +111,7 @@ You would not normally be calling this module directly, it is one of the possibl
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::EPTRN::Detail::RecordSummary object.
+Returns a new L<Finance::AMEX::Transaction::EPTRN::Detail::RecordSummary> object.
 
  my $record = Finance::AMEX::Transaction::EPTRN::Detail::RecordSummary->new(line => $line);
 

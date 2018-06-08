@@ -33,7 +33,7 @@ __END__
 
 =head1 NAME
 
-Finance::AMEX::Transaction::EPTRN::Header - Object methods for AMEX Reconciliation file header records.
+Finance::AMEX::Transaction::EPTRN::Header - Object methods for AMEX Transaction/Invoice Level Reconciliation (EPTRN) file header records.
 
 =head1 SYNOPSIS
 
@@ -62,7 +62,7 @@ You would not normally be calling this module directly, it is one of the possibl
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::EPTRN::Header object.
+Returns a new L<Finance::AMEX::Transaction::EPTRN::Header> object.
 
  my $record = Finance::AMEX::Transaction::EPTRN::Header->new(line => $line);
 

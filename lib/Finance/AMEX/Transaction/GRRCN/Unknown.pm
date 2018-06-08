@@ -38,7 +38,7 @@ You should only be getting this type of object if it is an unknown or invalid GR
 
 =method new
 
-Returns a new Finance::AMEX::Transaction::GRRCN::Unknown object.
+Returns a new L<Finance::AMEX::Transaction::GRRCN::Unknown> object.
 
  my $record = Finance::AMEX::Transaction::GRRCN::Unknown->new(line => $line);
 
