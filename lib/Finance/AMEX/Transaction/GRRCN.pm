@@ -40,6 +40,7 @@ sub new {
   my $self = bless {
     _type_map    => $type_map,
     _file_format => $file_format,
+    _version     => $props{version} || 1.01,
   }, $class;
 
   return $self;
@@ -78,7 +79,18 @@ sub parse_line {
   my $type = $self->detect_line_type($line);
 
   if (exists $self->{_type_map}->{$type}) {
-    return $self->{_type_map}->{$type}->new(line => $line, file_format => $self->file_format);
+
+    my $parsed = $self->{_type_map}->{$type}->new(
+      line => $line,
+      file_format => $self->file_format,
+      version => $self->{_version},
+    );
+
+    if ($type eq 'HEADER') {
+      $self->{_version} = $parsed->FILE_VERSION_NUMBER;
+    }
+
+    return $parsed;
   }
 
   return Finance::AMEX::Transaction::GRRCN::Unknown->new(line => $line);

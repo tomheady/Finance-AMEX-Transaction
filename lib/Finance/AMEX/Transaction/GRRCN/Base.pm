@@ -13,6 +13,7 @@ sub new {
     _line        => $props{line},
     _file_format => $props{file_format},
     _fields      => undef,
+    _version     => $props{version} || 1.01,
   }, $class;
 
   my $map = $self->field_map;
@@ -41,6 +42,11 @@ sub file_format {
 sub fields {
   my ($self) = @_;
   return $self->{_fields};
+}
+
+sub version {
+  my ($self) = @_;
+  return $self->{_version};
 }
 
 sub _get_column {

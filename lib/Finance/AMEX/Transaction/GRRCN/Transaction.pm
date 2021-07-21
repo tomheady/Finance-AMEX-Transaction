@@ -8,6 +8,8 @@ use warnings;
 use base 'Finance::AMEX::Transaction::GRRCN::Base';
 
 sub field_map {
+  my ($self) = @_;
+
   return {
     RECORD_TYPE                             => [1, 10],
     PAYEE_MERCHANT_ID                       => [11, 15],
@@ -48,6 +50,13 @@ sub field_map {
     SUBSEQUENT_INSTALLMENT_AMOUNT           => [384, 16],
     NUMBER_OF_INSTALLMENTS                  => [400, 5],
     INSTALLMENT_NUMBER                      => [405, 5],
+
+    (
+      $self->version >= 2.01
+      ? ( FILLER => [410, 15] )
+      : ()
+    ),
+
     SERVICE_FEE_AMOUNT                      => [425, 16],
     ACCELERATION_AMOUNT                     => [441, 16],
   };
@@ -60,6 +69,7 @@ sub PAYEE_MERCHANT_ID                       {return $_[0]->_get_column('PAYEE_ME
 sub SETTLEMENT_ACCOUNT_TYPE_CODE            {return $_[0]->_get_column('SETTLEMENT_ACCOUNT_TYPE_CODE')}
 sub AMERICAN_EXPRESS_PAYMENT_NUMBER         {return $_[0]->_get_column('AMERICAN_EXPRESS_PAYMENT_NUMBER')}
 sub PAYMENT_DATE                            {return $_[0]->_get_column('PAYMENT_DATE')}
+sub FILLER                                  {return $_[0]->_get_column('FILLER')}
 
 sub PAYMENT_CURRENCY                        {return $_[0]->_get_column('PAYMENT_CURRENCY')}
 sub SUBMISSION_MERCHANT_ID                  {return $_[0]->_get_column('SUBMISSION_MERCHANT_ID')}
