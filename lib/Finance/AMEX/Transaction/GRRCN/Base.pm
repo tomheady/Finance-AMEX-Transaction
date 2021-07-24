@@ -10,10 +10,10 @@ use Text::CSV;
 sub new {
   my ($class, %props) = @_;
   my $self = bless {
-    _line        => $props{line},
-    _file_format => $props{file_format},
-    _fields      => undef,
-    _version     => $props{version} || 1.01,
+    _line         => $props{line},
+    _file_format  => $props{file_format},
+    _fields       => undef,
+    _file_version => $props{file_version} || 1.01,
   }, $class;
 
   my $map = $self->field_map;
@@ -44,9 +44,9 @@ sub fields {
   return $self->{_fields};
 }
 
-sub version {
+sub file_version {
   my ($self) = @_;
-  return $self->{_version};
+  return $self->{_file_version};
 }
 
 sub _get_column {

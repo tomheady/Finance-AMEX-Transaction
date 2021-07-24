@@ -15,9 +15,10 @@ sub new {
   my ($class, %props) = @_;
 
   my $self = bless {
-    _file_type   => undef,
-    _file_format => undef,
-    _parser      => undef,
+    _file_type    => undef,
+    _file_format  => undef,
+    _file_version => undef,
+    _parser       => undef,
   }, $class;
 
   my $type_map = {
@@ -28,11 +29,15 @@ sub new {
     GRRCN => 'Finance::AMEX::Transaction::GRRCN',
   };
 
-  $self->{_file_type}   = $props{file_type};
-  $self->{_file_format} = $props{file_format};
+  $self->{_file_type}    = $props{file_type};
+  $self->{_file_format}  = $props{file_format}  || 'UNKNOWN';
+  $self->{_file_version} = $props{file_version} || 'UNKNOWN';
 
   if ($self->file_type and exists $type_map->{$self->file_type}) {
-    $self->{_parser} = $type_map->{$self->file_type}->new(file_format => $self->file_format);
+    $self->{_parser} = $type_map->{$self->file_type}->new(
+      file_format  => $self->file_format,
+      file_version => $self->file_version,
+    );
   }
 
   return $self;
@@ -48,6 +53,12 @@ sub file_format {
   my ($self) = @_;
 
   return $self->{_file_format};
+}
+
+sub file_version {
+  my ($self) = @_;
+
+  return $self->{_file_version};
 }
 
 sub parser {
@@ -67,7 +78,35 @@ sub parse_line {
   my ($self, $line) = @_;
 
   my $ret = $self->{_parser}->parse_line($line);
+
+  $self->_set_file_format;
+  $self->_set_file_version;
+
   return $ret;
+}
+
+sub _set_file_format {
+  my ($self) = @_;
+
+  return if not $self->file_format eq 'UNKNOWN';
+  return if $self->file_format eq $self->{_parser}->file_format;
+  return if $self->{_parser}->file_format eq 'UNKNOWN';
+
+  $self->{_file_format} = $self->{_parser}->file_format;
+
+  return $self->file_format;
+}
+
+sub _set_file_version {
+  my ($self) = @_;
+
+  return if not $self->file_version eq 'UNKNOWN';
+  return if $self->file_version eq $self->{_parser}->file_version;
+  return if $self->{_parser}->file_version eq 'UNKNOWN';
+
+  $self->{_file_version} = $self->{_parser}->file_version;
+
+  return $self->file_version;
 }
 
 1;
@@ -136,7 +175,7 @@ returns L<Finance::AMEX::Transaction::GRRCN> objects.
 
 = C<file_format>
 
-Sets the format of the file that we are parsing.  Currently only useful for L<Finance::AMEX::Transaction::GRRCN> files.  This can usually be auto-detected.
+Sets the format of the file that we are parsing.  Currently only useful for L<Finance::AMEX::Transaction::GRRCN> files.  This should be auto-detected after the first row is parsed.
 
 Should be one of FIXED, CSV, TSV.
 
@@ -156,6 +195,12 @@ The file has tab seperated values.
 
 =end :list
 
+= C<file_version>
+
+Sets the version of the file we are parsing.  Currently only useful for L<Finance::AMEX::Transaction::GRRCN> files.  This should be auto-detected after the HEADER row is parsed.
+
+Should be one of 1.01, 2.01, 3.01.
+
 =end :list
 
 =method file_type
@@ -164,7 +209,11 @@ Access method for the file type you set when calling C<new>
 
 =method file_format
 
-Access method for the file formated type that was set when calling C<new> or was auto-detected.
+Access method for the file formatted type that was set when calling C<new> or was auto-detected after the first row is parsed.
+
+=method file_version
+
+Access method for the file version that was set when calling C<new> or was auto-detected after the HEADER row is parsed.
 
 =method parser
 

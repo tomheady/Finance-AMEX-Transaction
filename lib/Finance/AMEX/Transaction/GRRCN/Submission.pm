@@ -25,7 +25,7 @@ sub field_map {
     SUBMISSION_CURRENCY                            => [96, 3],
 
     (
-      $self->version >= 2.01
+      $self->file_version >= 2.01
       ? ( FILLER => [99, 15] )
       : ()
     ),

@@ -34,6 +34,9 @@ sub new {
   return $self;
 }
 
+sub file_format  {'N/A'}
+sub file_version {'N/A'}
+
 sub parse_line {
   my ($self, $line) = @_;
 

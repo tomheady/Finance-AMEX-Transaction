@@ -15,7 +15,7 @@ sub field_map {
     SEQUENTIAL_NUMBER   => [25, 10],
     FILE_ID             => [35, 10],
     FILE_NAME           => [45, 20],
-    FILE_VERSION_NUMBER => [65, 4],
+    FILE_VERSION_NUMBER => [65, 4], # 1.01 2.01 3.01
   };
 }
 

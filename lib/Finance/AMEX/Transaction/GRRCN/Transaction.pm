@@ -52,7 +52,7 @@ sub field_map {
     INSTALLMENT_NUMBER                      => [405, 5],
 
     (
-      $self->version >= 2.01
+      $self->file_version >= 2.01
       ? ( FILLER => [410, 15] )
       : ()
     ),

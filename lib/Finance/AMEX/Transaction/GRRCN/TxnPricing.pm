@@ -22,7 +22,7 @@ sub field_map {
     MERCHANT_LOCATION_ID            => [65, 15],
 
     (
-      $self->version >= 2.01
+      $self->file_version >= 2.01
       ? ( FILLER => [80, 15] )
       : ()
     ),

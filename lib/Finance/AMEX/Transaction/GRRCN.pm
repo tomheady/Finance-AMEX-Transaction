@@ -35,12 +35,13 @@ sub new {
     TRAILER    => 'Finance::AMEX::Transaction::GRRCN::Trailer',
   };
 
-  my $file_format = $props{format} || 'UNKNOWN';
+  my $file_format  = $props{file_format}  || 'UNKNOWN';
+  my $file_version = $props{file_version} || 'UNKNOWN';
 
   my $self = bless {
-    _type_map    => $type_map,
-    _file_format => $file_format,
-    _version     => $props{version} || 1.01,
+    _type_map     => $type_map,
+    _file_format  => $file_format,
+    _file_version => $file_version,
   }, $class;
 
   return $self;
@@ -49,6 +50,11 @@ sub new {
 sub file_format {
   my ($self) = @_;
   return $self->{_file_format};
+}
+
+sub file_version {
+  my ($self) = @_;
+  return $self->{_file_version};
 }
 
 sub detect_file_format {
@@ -83,11 +89,13 @@ sub parse_line {
     my $parsed = $self->{_type_map}->{$type}->new(
       line => $line,
       file_format => $self->file_format,
-      version => $self->{_version},
+      file_version => $self->{_file_version},
     );
 
+    # We want to set the version when we see the header,
+    # it can change how we parse some of the line types
     if ($type eq 'HEADER') {
-      $self->{_version} = $parsed->FILE_VERSION_NUMBER;
+      $self->{_file_version} = $parsed->FILE_VERSION_NUMBER;
     }
 
     return $parsed;

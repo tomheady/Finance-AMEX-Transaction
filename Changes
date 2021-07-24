@@ -1,3 +1,8 @@
+0.005     
+          - support v3.01 GRRCN files
+          - autodetect GRRCN file version and set it in the base class
+          - correctly set file_format for GRRCN files in the base class
+
 0.004     2021-07-22 21:25:38-07:00 America/Los_Angeles
           - support v2.01 GRRCN files with v1.01 back compat
             Thanks leejo https://github.com/ZipRecruiter/Finance-AMEX-Transaction/pull/1

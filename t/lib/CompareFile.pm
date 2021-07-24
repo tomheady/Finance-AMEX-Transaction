@@ -41,6 +41,7 @@ sub compare {
 
   close $fh;
 
+  return $obj;
 }
 
 
