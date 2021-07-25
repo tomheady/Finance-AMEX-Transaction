@@ -2,6 +2,10 @@
           - support v3.01 GRRCN files
           - autodetect GRRCN file version and set it in the base class
           - correctly set file_format for GRRCN files in the base class
+          - fix DISCOUNT_AMOUNT, DISCOUNT_RATE, and FEE_AMOUNT parsing in GRRCN TXNPRICING rows
+          - fix errors with GRRCN SUBMISSION rows
+          - fix issues with filler columns in GRRCN files
+
 
 0.004     2021-07-22 21:25:38-07:00 America/Los_Angeles
           - support v2.01 GRRCN files with v1.01 back compat

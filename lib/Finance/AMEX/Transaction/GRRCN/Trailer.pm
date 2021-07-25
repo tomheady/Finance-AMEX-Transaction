@@ -8,11 +8,12 @@ use warnings;
 use base 'Finance::AMEX::Transaction::GRRCN::Base';
 
 sub field_map {
-  return {
-    RECORD_TYPE        => [1, 10],
-    SEQUENTIAL_NUMBER  => [11, 10],
-    TOTAL_RECORD_COUNT => [21, 7],
-  };
+  return [
+    {RECORD_TYPE        => [1, 10]},
+    {SEQUENTIAL_NUMBER  => [11, 10]},
+    {TOTAL_RECORD_COUNT => [21, 10]},
+    {FILLER1            => [31, 770]},
+  ];
 }
 
 sub type {return 'TRAILER'}

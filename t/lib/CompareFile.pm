@@ -24,14 +24,27 @@ sub compare {
       my $have = $counts->{$type}->{have};
       my $answers = $tests->{$type}->[$have];
 
-      foreach my $k (keys %{$line->field_map}) {
-        is ($line->$k, $answers->{$k}, $type .' '. $have .': '. $k);
+      my $map = $line->field_map;
+
+      if (ref($map) eq 'HASH') {
+        foreach my $k (keys %{$map}) {
+          is ($line->$k, $answers->{$k}, $type .' '. $have .': '. $k);
+        }
+      } elsif (ref($map) eq 'ARRAY') {
+        foreach my $column (@{$map}) {
+          my ($k) = keys %{$column};
+          if ($line->can($k)) {
+            is ($line->$k, $answers->{$k}, $type .' '. $have .': '. $k);
+          }
+        }
+      } else {
+        fail "field_map returned an unknown type for file_type => $type";
       }
 
       $counts->{$line->type}->{have}++;
 
     } else {
-      fail("unknown line type: $type");
+      #fail("unknown line type: $type");
     }
   }
 

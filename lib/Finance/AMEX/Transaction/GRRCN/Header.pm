@@ -8,15 +8,16 @@ use warnings;
 use base 'Finance::AMEX::Transaction::GRRCN::Base';
 
 sub field_map {
-  return {
-    RECORD_TYPE         => [1, 10],
-    FILE_CREATION_DATE  => [11, 8],
-    FILE_CREATION_TIME  => [19, 6],
-    SEQUENTIAL_NUMBER   => [25, 10],
-    FILE_ID             => [35, 10],
-    FILE_NAME           => [45, 20],
-    FILE_VERSION_NUMBER => [65, 4], # 1.01 2.01 3.01
-  };
+  return [
+    {RECORD_TYPE         => [1, 10]},
+    {FILE_CREATION_DATE  => [11, 8]},
+    {FILE_CREATION_TIME  => [19, 6]},
+    {SEQUENTIAL_NUMBER   => [25, 10]},
+    {FILE_ID             => [35, 10]},
+    {FILE_NAME           => [45, 20]},
+    {FILE_VERSION_NUMBER => [65, 4]},
+    {FILLER1             => [69, 732]},
+  ];
 }
 
 sub type {return 'HEADER'}

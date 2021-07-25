@@ -18,10 +18,12 @@ sub new {
 
   my $map = $self->field_map;
 
-  my @sorted = sort {$map->{$a}->[0] <=> $map->{$b}->[0]} keys %{$map};
+  my $column_number = 0;
   my $numbered = {};
-  for (my $i = 0; $i < @sorted; $i++) {
-    $numbered->{$sorted[$i]} = $i;
+
+  foreach my $column (@{$map}) {
+    my ($field) = keys %{$column};
+    $numbered->{$field} = $column_number++;
   }
 
   $self->{_fields} = $numbered;
@@ -74,7 +76,9 @@ sub _get_column {
 
   } elsif ($self->file_format eq 'FIXED') {
 
-    my $map = $self->field_map->{$field};
+    my $column_number = $self->fields->{$field};
+
+    my $map = $self->field_map->{$column_number}->{$field};
 
     # if the line is not long enough to handle the start of the field,
     # it is an optional field that we don't have

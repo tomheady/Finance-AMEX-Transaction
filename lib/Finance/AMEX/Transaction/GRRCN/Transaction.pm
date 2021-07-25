@@ -10,56 +10,53 @@ use base 'Finance::AMEX::Transaction::GRRCN::Base';
 sub field_map {
   my ($self) = @_;
 
-  return {
-    RECORD_TYPE                             => [1, 10],
-    PAYEE_MERCHANT_ID                       => [11, 15],
-    SETTLEMENT_ACCOUNT_TYPE_CODE            => [26, 3],
-    AMERICAN_EXPRESS_PAYMENT_NUMBER         => [29, 10],
-    PAYMENT_DATE                            => [39, 8],
-    PAYMENT_CURRENCY                        => [47, 3],
+  return [
+    {RECORD_TYPE                             => [1, 10]},
+    {PAYEE_MERCHANT_ID                       => [11, 15]},
+    {SETTLEMENT_ACCOUNT_TYPE_CODE            => [26, 3]},
+    {AMERICAN_EXPRESS_PAYMENT_NUMBER         => [29, 10]},
+    {PAYMENT_DATE                            => [39, 8]},
+    {PAYMENT_CURRENCY                        => [47, 3]},
 
-    SUBMISSION_MERCHANT_ID                  => [50, 15],
-    BUSINESS_SUBMISSION_DATE                => [65, 8],
-    AMERICAN_EXPRESS_PROCESSING_DATE        => [73, 18],
-    SUBMISSION_INVOICE_NUMBER               => [81, 15],
-    SUBMISSION_CURRENCY                     => [96, 3],
+    {SUBMISSION_MERCHANT_ID                  => [50, 15]},
+    {BUSINESS_SUBMISSION_DATE                => [65, 8]},
+    {AMERICAN_EXPRESS_PROCESSING_DATE        => [73, 8]},
+    {SUBMISSION_INVOICE_NUMBER               => [81, 15]},
+    {SUBMISSION_CURRENCY                     => [96, 3]},
 
-    MERCHANT_LOCATION_ID                    => [99, 15],
-    INVOICE_REFERENCE_NUMBER                => [114, 30],
-    SELLER_ID                               => [144, 20],
-    CARDMEMBER_ACCOUNT_NUMBER               => [164, 19],
-    INDUSTRY_SPECIFIC_REFERENCE_NUMBER      => [183, 30],
-    SUBMISSION_GROSS_AMOUNT                 => [213, 16],
-    TRANSACTION_AMOUNT                      => [229, 16],
-    TRANSACTION_DATE                        => [245, 8],
-    TRANSACTION_TIME                        => [253, 6],
-    TRANSACTION_ID                          => [259, 15],
-    APPROVAL_CODE                           => [274, 6],
-    TERMINAL_ID                             => [280, 10],
-    MERCHANT_CATEGORY_CODE                  => [290, 4],
-    CARDMEMBER_REFERENCE_NUMBER             => [294, 30],
-    ACQUIRER_REFERENCE_NUMBER               => [324, 23],
-    DATA_QUALITY_NON_COMPLIANT_INDICATOR    => [347, 1],
-    DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_1 => [348, 4],
-    DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_2 => [352, 4],
-    DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_3 => [356, 4],
-    DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_4 => [360, 4],
-    NON_SWIPED_INDICATOR                    => [364, 1],
-    TRANSACTION_REJECTED_INDICATOR          => [365, 3],
-    FIRST_INSTALLMENT_AMOUNT                => [368, 16],
-    SUBSEQUENT_INSTALLMENT_AMOUNT           => [384, 16],
-    NUMBER_OF_INSTALLMENTS                  => [400, 5],
-    INSTALLMENT_NUMBER                      => [405, 5],
+    {MERCHANT_LOCATION_ID                    => [99, 15]},
+    {INVOICE_REFERENCE_NUMBER                => [114, 30]},
+    {SELLER_ID                               => [144, 20]},
+    {CARDMEMBER_ACCOUNT_NUMBER               => [164, 19]},
+    {INDUSTRY_SPECIFIC_REFERENCE_NUMBER      => [183, 30]},
+    {SUBMISSION_GROSS_AMOUNT                 => [213, 16]},
+    {TRANSACTION_AMOUNT                      => [229, 16]},
+    {TRANSACTION_DATE                        => [245, 8]},
+    {TRANSACTION_TIME                        => [253, 6]},
+    {TRANSACTION_ID                          => [259, 15]},
+    {APPROVAL_CODE                           => [274, 6]},
+    {TERMINAL_ID                             => [280, 10]},
+    {MERCHANT_CATEGORY_CODE                  => [290, 4]},
+    {CARDMEMBER_REFERENCE_NUMBER             => [294, 30]},
+    {ACQUIRER_REFERENCE_NUMBER               => [324, 23]},
+    {DATA_QUALITY_NON_COMPLIANT_INDICATOR    => [347, 1]},
+    {DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_1 => [348, 4]},
+    {DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_2 => [352, 4]},
+    {DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_3 => [356, 4]},
+    {DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_4 => [360, 4]},
+    {NON_SWIPED_INDICATOR                    => [364, 1]},
+    {TRANSACTION_REJECTED_INDICATOR          => [365, 3]},
+    {FIRST_INSTALLMENT_AMOUNT                => [368, 16]},
+    {SUBSEQUENT_INSTALLMENT_AMOUNT           => [384, 16]},
+    {NUMBER_OF_INSTALLMENTS                  => [400, 5]},
+    {INSTALLMENT_NUMBER                      => [405, 5]},
 
-    (
-      $self->file_version >= 2.01
-      ? ( FILLER => [410, 15] )
-      : ()
-    ),
+    {FILLER1                                 => [410, 15]},
 
-    SERVICE_FEE_AMOUNT                      => [425, 16],
-    ACCELERATION_AMOUNT                     => [441, 16],
-  };
+    {SERVICE_FEE_AMOUNT                      => [425, 16]},
+    {ACCELERATION_AMOUNT                     => [441, 16]},
+    {FILLER2                                 => [457, 344]}
+  ];
 }
 
 sub type {return 'TRANSACTION'}
@@ -69,7 +66,6 @@ sub PAYEE_MERCHANT_ID                       {return $_[0]->_get_column('PAYEE_ME
 sub SETTLEMENT_ACCOUNT_TYPE_CODE            {return $_[0]->_get_column('SETTLEMENT_ACCOUNT_TYPE_CODE')}
 sub AMERICAN_EXPRESS_PAYMENT_NUMBER         {return $_[0]->_get_column('AMERICAN_EXPRESS_PAYMENT_NUMBER')}
 sub PAYMENT_DATE                            {return $_[0]->_get_column('PAYMENT_DATE')}
-sub FILLER                                  {return $_[0]->_get_column('FILLER')}
 
 sub PAYMENT_CURRENCY                        {return $_[0]->_get_column('PAYMENT_CURRENCY')}
 sub SUBMISSION_MERCHANT_ID                  {return $_[0]->_get_column('SUBMISSION_MERCHANT_ID')}

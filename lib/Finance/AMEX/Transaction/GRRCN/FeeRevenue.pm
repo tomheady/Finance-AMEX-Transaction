@@ -8,25 +8,26 @@ use warnings;
 use base 'Finance::AMEX::Transaction::GRRCN::Base';
 
 sub field_map {
-  return {
-    RECORD_TYPE                     => [1, 10],
-    PAYEE_MERCHANT_ID               => [11, 15],
-    AMERICAN_EXPRESS_PAYMENT_NUMBER => [26, 10],
-    PAYMENT_DATE                    => [36, 8],
-    PAYMENT_CURRENCY                => [44, 3],
+  return [
+    {RECORD_TYPE                     => [1, 10]},
+    {PAYEE_MERCHANT_ID               => [11, 15]},
+    {AMERICAN_EXPRESS_PAYMENT_NUMBER => [26, 10]},
+    {PAYMENT_DATE                    => [36, 8]},
+    {PAYMENT_CURRENCY                => [44, 3]},
 
-    SUBMISSION_MERCHANT_ID          => [47, 15],
-    MERCHANT_LOCATION_ID            => [62, 15],
+    {SUBMISSION_MERCHANT_ID          => [47, 15]},
+    {MERCHANT_LOCATION_ID            => [62, 15]},
 
-    FEE_OR_REVENUE_AMOUNT           => [77, 16],
-    FEE_OR_REVENUE_DESCRIPTION      => [93, 80],
-    ASSET_BILLING_AMOUNT            => [173, 16],
-    ASSET_BILLING_DESCRIPTION       => [189, 65],
-    ASSET_BILLING_TAX               => [254, 16],
-    PAY_IN_GROSS_INDICATOR          => [270, 1],
-    BATCH_CODE                      => [271, 3],
-    BILL_CODE                       => [274, 3],
-  };
+    {FEE_OR_REVENUE_AMOUNT           => [77, 16]},
+    {FEE_OR_REVENUE_DESCRIPTION      => [93, 80]},
+    {ASSET_BILLING_AMOUNT            => [173, 16]},
+    {ASSET_BILLING_DESCRIPTION       => [189, 65]},
+    {ASSET_BILLING_TAX               => [254, 16]},
+    {PAY_IN_GROSS_INDICATOR          => [270, 1]},
+    {BATCH_CODE                      => [271, 3]},
+    {BILL_CODE                       => [274, 3]},
+    {FILLER1                         => [277, 524]},
+  ];
 }
 
 sub type {return 'FEEREVENUE'}

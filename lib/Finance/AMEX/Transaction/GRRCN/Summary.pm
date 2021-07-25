@@ -8,26 +8,27 @@ use warnings;
 use base 'Finance::AMEX::Transaction::GRRCN::Base';
 
 sub field_map {
-  return {
-    RECORD_TYPE                       => [1, 10],
-    PAYEE_MERCHANT_ID                 => [11, 15],
-    SETTLEMENT_ACCOUNT_TYPE_CODE      => [26, 3],
-    AMERICAN_EXPRESS_PAYMENT_NUMBER   => [29, 10],
-    PAYMENT_DATE                      => [39, 8],
-    PAYMENT_CURRENCY                  => [47, 3],
-    UNIQUE_PAYMENT_REFERENCE_NUMBER   => [50, 18],
-    PAYMENT_NET_AMOUNT                => [68, 16],
-    PAYMENT_GROSS_AMOUNT              => [84, 16],
-    PAYMENT_DISCOUNT_AMOUNT           => [100, 16],
-    PAYMENT_SERVICE_FEE_AMOUNT        => [116, 16],
-    PAYMENT_ADJUSTMENT_AMOUNT         => [132, 16],
-    PAYMENT_TAX_AMOUNT                => [148, 16],
-    OPENING_DEBIT_BALANCE_AMOUNT      => [164, 16],
-    PAYEE_DIRECT_DEPOSIT_NUMBER       => [180, 17],
-    BANK_ACCOUNT_NUMBER               => [197, 34],
-    INTERNATIONAL_BANK_ACCOUNT_NUMBER => [231, 34],
-    BANK_IDENTIFIER_CODE              => [265, 15],
-  };
+  return [
+    {RECORD_TYPE                       => [1, 10]},
+    {PAYEE_MERCHANT_ID                 => [11, 15]},
+    {SETTLEMENT_ACCOUNT_TYPE_CODE      => [26, 3]},
+    {AMERICAN_EXPRESS_PAYMENT_NUMBER   => [29, 10]},
+    {PAYMENT_DATE                      => [39, 8]},
+    {PAYMENT_CURRENCY                  => [47, 3]},
+    {UNIQUE_PAYMENT_REFERENCE_NUMBER   => [50, 18]},
+    {PAYMENT_NET_AMOUNT                => [68, 16]},
+    {PAYMENT_GROSS_AMOUNT              => [84, 16]},
+    {PAYMENT_DISCOUNT_AMOUNT           => [100, 16]},
+    {PAYMENT_SERVICE_FEE_AMOUNT        => [116, 16]},
+    {PAYMENT_ADJUSTMENT_AMOUNT         => [132, 16]},
+    {PAYMENT_TAX_AMOUNT                => [148, 16]},
+    {OPENING_DEBIT_BALANCE_AMOUNT      => [164, 16]},
+    {PAYEE_DIRECT_DEPOSIT_NUMBER       => [180, 17]},
+    {BANK_ACCOUNT_NUMBER               => [197, 34]},
+    {INTERNATIONAL_BANK_ACCOUNT_NUMBER => [231, 34]},
+    {BANK_IDENTIFIER_CODE              => [265, 15]},
+    {FILLER1                           => [280, 521]},
+  ];
 }
 
 sub type {return 'SUMMARY'}
