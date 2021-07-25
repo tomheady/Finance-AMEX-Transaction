@@ -11,7 +11,7 @@ sub field_map {
   my ($self) = @_;
 
   # order is important here for the CSV and TSV file formats
-  return [
+  my $map = [
     {RECORD_TYPE                     => [1, 10]},
     {PAYEE_MERCHANT_ID               => [11, 15]},
     {SETTLEMENT_ACCOUNT_TYPE_CODE    => [26, 3]},
@@ -31,8 +31,24 @@ sub field_map {
     {FEE_AMOUNT                      => [197, 22]},
     {DISCOUNT_RATE                   => [219, 7]},
     {DISCOUNT_AMOUNT                 => [226, 22]},
+
     {FILLER3                         => [248, 553]},
   ];
+
+  if ($self->file_version == 3.02) {
+    pop @{$map}; # the last filler column changes for v3.02, so we remove it
+
+    push @{$map} => (
+      {ROUNDED_FEE_AMOUNT                     => [248, 16]}, # v3.02
+      {ROUNDED_DISCOUNT_AMOUNT                => [264, 16]}, # v3.02
+      {FEE_AMOUNT_SETTLEMENT_CURRENCY         => [280, 22]}, # v3.02
+      {DISCOUNT_AMOUNT_SETTLEMENT_CURRENCY    => [302, 22]}, # v3.02
+      {TRANSACTION_AMOUNT_SETTLEMENT_CURRENCY => [324, 16]}, # v3.02
+      {FILLER3                                => [340, 461]}, # v3.02
+    );
+  }
+
+  return $map;
 }
 
 sub type {return 'TXNPRICING'}
@@ -56,6 +72,12 @@ sub FEE_CODE                        {return $_[0]->_get_column('FEE_CODE')}
 sub FEE_AMOUNT                      {return $_[0]->_get_column('FEE_AMOUNT')}
 sub DISCOUNT_RATE                   {return $_[0]->_get_column('DISCOUNT_RATE')}
 sub DISCOUNT_AMOUNT                 {return $_[0]->_get_column('DISCOUNT_AMOUNT')}
+
+sub ROUNDED_FEE_AMOUNT                     {return;return $_[0]->_get_column('ROUNDED_FEE_AMOUNT')}
+sub ROUNDED_DISCOUNT_AMOUNT                {return;return $_[0]->_get_column('ROUNDED_DISCOUNT_AMOUNT')}
+sub FEE_AMOUNT_SETTLEMENT_CURRENCY         {return;return $_[0]->_get_column('FEE_AMOUNT_SETTLEMENT_CURRENCY')}
+sub DISCOUNT_AMOUNT_SETTLEMENT_CURRENCY    {return;return $_[0]->_get_column('DISCOUNT_AMOUNT_SETTLEMENT_CURRENCY')}
+sub TRANSACTION_AMOUNT_SETTLEMENT_CURRENCY {return;return $_[0]->_get_column('TRANSACTION_AMOUNT_SETTLEMENT_CURRENCY')}
 
 1;
 
@@ -254,3 +276,66 @@ Positions 2-16 (15) are whole numbers.
 Positions 17-22 (6) are decimal places.
 
 For example: ‘000000000000056789000’ represents a positive amount of 56.789, while ‘-000000000000056789000’ represents a negative amount of 56.789.
+
+=method ROUNDED_FEE_AMOUNT
+
+This field will only be available in v3.01 of the GRRCN format.
+
+This field contains the Fee Amount charged by American Express for this transaction to two (2) decimal places. If the applied fee is a Fixed Fee, then the Fixed Fee Amount will be displayed in this field. This value is expressed in the Submission currency. For a typical debit ROC/transaction, the fee amount is signed positive.
+
+This field is only applicable in the U.S. and Canada. Where not relevant this field will be zero (0) filled.
+
+=method  ROUNDED_DISCOUNT_AMOUNT
+
+This field will only be available in v3.01 of the GRRCN format.
+
+This field contains the Discount Amount charged by American Express for this transaction to two (2) decimal places.
+
+If the applied fee is calculated as a percentage (%) of the transaction amount then the calculated fee amount will be displayed in this field (e.g., Rate = 2%, Transaction Amount = $100.00, Calculated Fee Amount = $2.00) - $2.00 will be populated in this field.
+
+Note: It is also possible that in certain markets which have local goods and services taxes (e.g., India, Australia, Mexico) that this field will contain a Tax Amount applicable to the transaction. This value is expressed in the Submission currency. For a typical debit transaction/ROC, the discount amount is signed positive.
+
+This field is only applicable in the U.S. and Canada. Where not relevant this field will be zero (0) filled.
+
+=method  FEE_AMOUNT_SETTLEMENT_CURRENCY
+
+This field will only be available in v3.01 of the GRRCN format.
+
+This field contains the Fee Amount charged by American Express for this transaction to six (6) decimal places.
+
+If the applied fee is a Fixed Fee, then the Fixed Fee Amount will be displayed in this field.
+
+If this field is populated then Field 18, Discount Rate, Field 19 Discount Amount and Field 23, Discount Amount (Settlement Currency) will not be populated.
+
+This value is expressed in the Settlement currency.
+
+For a typical debit ROC/transaction, the fee amount is signed positive.
+
+The format of this field is: Position 1 (1) is a signed field and will be either a space for a credit amount or a ‘-’ sign for a debit amount.
+
+Positions 2-16 (15) are whole numbers.
+
+Positions 17-22 (6) are decimal places.
+
+For example:
+' 000000000000056789000' represents a positive amount of 56.789, while '-000000000000056789000' represents a negative amount of 56.789.
+
+=method  DISCOUNT_AMOUNT_SETTLEMENT_CURRENCY
+
+This field will only be available in v3.01 of the GRRCN format.
+
+This field contains the Discount Amount charged by American Express for this transaction to six (6) decimal places.
+
+Note: It is also possible that in certain markets which have local goods and services taxes (e.g., India, Australia, Mexico) that this field will contain a Tax Amount applicable to the transaction. This value is expressed in the Settlement currency. If the applied fee is calculated as a percentage (%) of the transaction amount then the calculated fee amount will be displayed in this field (e.g., Rate = 2%, Transaction Amount = $100.00, Calculated Fee Amount = $2.00) - $2.00 will be populated in this field. If this field is populated then Field 17, Fee Amount and Field 22, Fee Amount (Settlement Currency) will not be populated.
+
+For a typical debit transaction/ROC, the discount amount is signed positive. The format of this field is: Position 1 (1) is a signed field and will be either a space for a credit amount or a ‘-’ sign for a debit amount. Positions 2-16 (15) are whole numbers. Positions 17-22 (6) are decimal places.
+
+For example:’ 000000000000056789000’ represents a positive amount of 56.789, while ‘-0000000000000567 represents a negative amount of 56.789.
+
+=method  TRANSACTION_AMOUNT_SETTLEMENT_CURRENCY
+
+This field will only be available in v3.01 of the GRRCN format.
+
+This field contains the Transaction or Record of Charge (ROC) Amount for a single transaction.
+
+This value is expressed in the Settlement currency.

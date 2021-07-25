@@ -8,7 +8,9 @@ use warnings;
 use base 'Finance::AMEX::Transaction::GRRCN::Base';
 
 sub field_map {
-  return [
+  my ($self) = @_;
+
+  my $map = [
     {RECORD_TYPE                     => [1, 10]},
     {PAYEE_MERCHANT_ID               => [11, 15]},
     {AMERICAN_EXPRESS_PAYMENT_NUMBER => [26, 10]},
@@ -28,6 +30,17 @@ sub field_map {
     {BILL_CODE                       => [274, 3]},
     {FILLER1                         => [277, 524]},
   ];
+
+  if ($self->file_version == 3.02) {
+    pop @{$map}; # the last filler column changes for v3.02, so we remove it
+
+    push @{$map} => (
+      {SELLER_ID => [277, 20]}, # v3.02
+      {FILLER3   => [267, 504]}, # v3.02
+    );
+  }
+
+  return $map;
 }
 
 sub type {return 'FEEREVENUE'}
@@ -49,6 +62,8 @@ sub ASSET_BILLING_TAX               {return $_[0]->_get_column('ASSET_BILLING_TA
 sub PAY_IN_GROSS_INDICATOR          {return $_[0]->_get_column('PAY_IN_GROSS_INDICATOR')}
 sub BATCH_CODE                      {return $_[0]->_get_column('BATCH_CODE')}
 sub BILL_CODE                       {return $_[0]->_get_column('BILL_CODE')}
+
+sub SELLER_ID                       {return $_[0]->_get_column('SELLER_ID')}
 
 1;
 
@@ -187,3 +202,11 @@ If unused, this field is character space filled (fixed format) or blank (delimit
 This field contains the three-digit, numeric Bill Code that corresponds to the Fee or Revenue Description, when used in conjunction with Batch Code.
 
 If unused, this field is character space filled (fixed format) or blank (delimited).
+
+=method SELLER_ID
+
+This field will only be available in v3.01 of the GRRCN format and will be applicable from October 15, 2021.
+
+This field contains the Seller ID, 20-byte code that uniquely identifies a Payment Aggregator or OptBlue Participant's specific seller or vendor.
+
+If unused, this field will be character space filled (fixed format) or blank (delimited formats).
