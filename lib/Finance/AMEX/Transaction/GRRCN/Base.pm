@@ -74,7 +74,7 @@ sub _get_column {
 
   } elsif ($self->file_format eq 'FIXED') {
 
-    my $map = $self->field_map;
+    my $map = $self->field_map->{$field};
 
     # if the line is not long enough to handle the start of the field,
     # it is an optional field that we don't have

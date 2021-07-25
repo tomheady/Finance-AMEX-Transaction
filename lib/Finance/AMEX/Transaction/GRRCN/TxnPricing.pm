@@ -18,24 +18,19 @@ sub field_map {
     PAYMENT_DATE                    => [39, 8],
     PAYMENT_CURRENCY                => [47, 3],
     SUBMISSION_MERCHANT_ID          => [50, 15],
-
     MERCHANT_LOCATION_ID            => [65, 15],
-
-    (
-      $self->file_version >= 2.01
-      ? ( FILLER => [80, 15] )
-      : ()
-    ),
-
+    FILLER                          => [80, 15],
     INVOICE_REFERENCE_NUMBER        => [95, 30],
     SELLER_ID                       => [125, 20],
     CARDMEMBER_ACCOUNT_NUMBER       => [145, 19],
     TRANSACTION_AMOUNT              => [164, 16],
     TRANSACTION_DATE                => [180, 8],
     FEE_CODE                        => [188, 2],
+#    FILLER                          => [190, 7],
     FEE_AMOUNT                      => [197, 22],
-    DISCOUNT_RATE                   => [216, 7],
+    DISCOUNT_RATE                   => [219, 7],
     DISCOUNT_AMOUNT                 => [226, 22],
+#    FILLER                          => [248, 553],
   };
 }
 
