@@ -7,9 +7,7 @@ use warnings;
 
 sub new {
   my ($class, %props) = @_;
-  my $self = bless {
-    _line => $props{line},
-  }, $class;
+  my $self = bless {_line => $props{line}}, $class;
 
   return $self;
 }
@@ -24,7 +22,7 @@ sub _get_column {
   my $map = $self->field_map->{$field};
 
   my $ret = substr($self->{_line}, $map->[0] - 1, $map->[1]);
-  $ret =~ s{\s+\z}{};
+  $ret =~ s{\s+\z}{}xsm;
   return $ret;
 }
 

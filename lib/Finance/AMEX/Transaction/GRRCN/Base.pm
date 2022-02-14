@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Text::CSV;
+use Carp 'croak';
 
 # ABSTRACT: Parse AMEX Global Reconciliation (GRRCN) Base methods
 
@@ -19,7 +20,7 @@ sub new {
   my $map = $self->field_map;
 
   my $column_number = 0;
-  my $numbered = {};
+  my $numbered      = {};
 
   foreach my $column (@{$map}) {
     my ($field) = keys %{$column};
@@ -54,25 +55,30 @@ sub file_version {
 sub _get_column {
   my ($self, $field) = @_;
 
+  # this will happen if we're trying to get a field that does not
+  # exist in the version of the file we are parsing
+  return if not exists $self->fields->{$field};
+
   if ($self->file_format eq 'CSV' or $self->file_format eq 'TSV') {
 
-   # Text::CSV does not like blank space at the end of the line
-   $self->{_line} =~ s{\s+\z}{};
-   my $index = $self->fields->{$field};
+    # Text::CSV does not like blank space at the end of the line
+    $self->{_line} =~ s{\s+\z}{}xsm;
+    my $index = $self->fields->{$field};
 
-   my $csv = Text::CSV->new ({
-     binary      => 1,
-     quote_char  => '"',
-     escape_char => "\\",
-   }) or die "Cannot use CSV: ".Text::CSV->error_diag ();
+    my $csv = Text::CSV->new({
+      binary      => 1,
+      quote_char  => '"',
+      escape_char => "\\",
+    })
+      or croak 'Cannot use CSV: ' . Text::CSV->error_diag();
 
-   if ($self->file_format eq 'TSV') {
-     $csv->sep_char("\t");
-   }
+    if ($self->file_format eq 'TSV') {
+      $csv->sep_char("\t");
+    }
 
-   if (my $status = $csv->parse($self->{_line})) {
-     return ($csv->fields)[$index];
-   }
+    if (my $status = $csv->parse($self->{_line})) {
+      return ($csv->fields)[$index];
+    }
 
   } elsif ($self->file_format eq 'FIXED') {
 
@@ -87,10 +93,9 @@ sub _get_column {
     }
 
     my $ret = substr($self->{_line}, $map->[0] - 1, $map->[1]);
-    $ret =~ s{\s+\z}{};
+    $ret =~ s{\s+\z}{}xsm;
     return $ret;
   }
-
 }
 
 1;
@@ -114,3 +119,15 @@ The shared new method.
 =method line
 
 The shared line method.
+
+=method fields
+
+Returns the parsed fields from the child module.
+
+=method file_format
+
+Returns the file_format.  Normally this will be auto-detected.
+
+=method file_version
+
+Returns the file_version.  Normally this will be auto-detected.

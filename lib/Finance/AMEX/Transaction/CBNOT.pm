@@ -19,15 +19,13 @@ sub new {
     T => 'Finance::AMEX::Transaction::CBNOT::Trailer',
   };
 
-  my $self = bless {
-    _type_map => $type_map,
-  }, $class;
+  my $self = bless {_type_map => $type_map}, $class;
 
   return $self;
 }
 
-sub file_format  {'N/A'}
-sub file_version {'N/A'}
+sub file_format  {return 'N/A'}
+sub file_version {return 'N/A'}
 
 sub parse_line {
   my ($self, $line) = @_;
@@ -112,3 +110,11 @@ Returns a L<Finance::AMEX::Transaction::CBNOT> object.
 Returns one of the L<Finance::AMEX::Transaction::CBNOT::Header>, L<Finance::AMEX::Transaction::CBNOT::Detail>, L<Finance::AMEX::Transaction::CBNOT::Trailer>, or L<Finance::AMEX::Transaction::CBNOT::Unknown> records depending on the contents of the line.
 
  my $record = $cbnot->parse_line('line from a cbnot file');
+
+=method file_format
+
+This is included for compatibility, it will always return the string 'N/A'.
+
+=method file_version
+
+This is included for compatibility, it will always return the string 'N/A'.

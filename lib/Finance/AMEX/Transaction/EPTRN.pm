@@ -29,62 +29,63 @@ sub new {
     TRAILER           => 'Finance::AMEX::Transaction::EPTRN::Trailer',
   };
 
-  my $self = bless {
-    _type_map => $type_map,
-  }, $class;
+  my $self = bless {_type_map => $type_map}, $class;
 
   return $self;
 }
 
-sub file_format  {'N/A'}
-sub file_version {'N/A'}
+sub file_format  {return 'N/A'}
+sub file_version {return 'N/A'}
 
-sub parse_line {
+sub line_indicator {
   my ($self, $line) = @_;
 
   return if not defined $line;
 
   my $header_trailer_indicator = substr($line, 0, 5);
 
-  # DFHDR = header
-  # DFTRL = trailer
+  my $indicator_map = {
+    DFHDR => 'HEADER',
+    DFTRL => 'TRAILER',
+  };
 
-  # 1-00 = Summary
-  # 2-10 = SOC detail
-  # 3-11 = ROC detail
-  # 2-20 = Chargeback detail
-  # 2-30 = Adjustment detail
-  # 2-40, 2-41, 2-50 = Other Fees and Revenues detail
-
-  my $indicator = 'UNKNOWN';
-
-  if ($header_trailer_indicator eq 'DFHDR') {
-    $indicator = 'HEADER';
-  } elsif ($header_trailer_indicator eq 'DFTRL') {
-    $indicator = 'TRAILER';
-  } elsif ($indicator eq 'UNKNOWN') {
-    my $summary_detail_indicator = join('-', substr($line, 42, 1), substr($line, 43, 2));
-    if ($summary_detail_indicator eq '1-00') {
-      $indicator = 'SUMMARY';
-    } elsif ($summary_detail_indicator eq '2-10') {
-      $indicator = 'SOC_DETAIL';
-    } elsif ($summary_detail_indicator eq '2-12') {
-      $indicator = 'SOC_PRICING';
-    } elsif ($summary_detail_indicator eq '3-11') {
-      $indicator = 'ROC_DETAIL';
-    } elsif ($summary_detail_indicator eq '3-13') {
-      $indicator = 'ROC_PRICING';
-    } elsif ($summary_detail_indicator eq '2-20') {
-      $indicator = 'CHARGEBACK_DETAIL';
-    } elsif ($summary_detail_indicator eq '2-30') {
-      $indicator = 'ADJUSTMENT_DETAIL';
-    } elsif ($summary_detail_indicator eq '2-40' or $summary_detail_indicator eq '2-41' or $summary_detail_indicator eq '2-50') {
-      $indicator = 'OTHER_DETAIL';
-    }
+  if (exists $indicator_map->{$header_trailer_indicator}) {
+    return $indicator_map->{$header_trailer_indicator};
   }
-  if (exists $self->{_type_map}->{$indicator}) {
+
+  # if it is not a header or trailer, we need to look deeper
+  my $summary_detail_indicator = join('-', substr($line, 42, 1), substr($line, 43, 2));
+
+  my $summary_map = {
+    '1-00' => 'SUMMARY',
+    '2-10' => 'SOC_DETAIL',
+    '3-11' => 'ROC_DETAIL',
+    '2-20' => 'CHARGEBACK_DETAIL',
+    '2-30' => 'ADJUSTMENT_DETAIL',
+    '2-40' => 'OTHER_DETAIL',
+    '2-41' => 'OTHER_DETAIL',
+    '2-50' => 'OTHER_DETAIL',
+  };
+
+  if (exists $summary_map->{$summary_detail_indicator}) {
+    return $summary_map->{$summary_detail_indicator};
+  }
+
+  # we don't know what it is!
+  return;
+}
+
+sub parse_line {
+  my ($self, $line) = @_;
+
+  return if not defined $line;
+
+  my $indicator = $self->line_indicator($line);
+
+  if ($indicator and exists $self->{_type_map}->{$indicator}) {
     return $self->{_type_map}->{$indicator}->new(line => $line);
   }
+
   return Finance::AMEX::Transaction::EPTRN::Unknown->new(line => $line);
 }
 
@@ -189,3 +190,18 @@ Returns a L<Finance::AMEX::Transaction::EPTRN> object.
 Returns one of the L<Finance::AMEX::Transaction::EPTRN::Header>, L<Finance::AMEX::Transaction::EPTRN::Summary>, L<Finance::AMEX::Transaction::EPTRN::Detail::ChargeSummary>, L<Finance::AMEX::Transaction::EPTRN::Detail::RecordSummary>, L<Finance::AMEX::Transaction::EPTRN::Detail::Chargeback>, L<Finance::AMEX::Transaction::EPTRN::Detail::Adjustment>, L<Finance::AMEX::Transaction::EPTRN::Detail::Other>, L<Finance::AMEX::Transaction::EPTRN::Trailer>, or L<Finance::AMEX::Transaction::EPTRN::Unknown> records depending on the contents of the line.
 
  my $record = $eptrn->parse_line('line from a eptrn file');
+
+=method file_format
+
+This is included for compatibility, it will always return the string 'N/A'.
+
+=method file_version
+
+This is included for compatibility, it will always return the string 'N/A'.
+
+=method line_indicator
+
+Returns one of the line types for the EPTRN format.
+You wouldn't normally need to call this.
+
+ my $line_type = $eptrn->line_indicator('line from a eptrn file');

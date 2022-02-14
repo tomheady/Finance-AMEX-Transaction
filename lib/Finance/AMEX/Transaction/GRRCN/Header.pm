@@ -9,7 +9,7 @@ use base 'Finance::AMEX::Transaction::GRRCN::Base';
 
 sub field_map {
   return [
-    {RECORD_TYPE         => [1, 10]},
+    {RECORD_TYPE         => [1,  10]},
     {FILE_CREATION_DATE  => [11, 8]},
     {FILE_CREATION_TIME  => [19, 6]},
     {SEQUENTIAL_NUMBER   => [25, 10]},
@@ -83,6 +83,14 @@ Returns the full line that is represented by this object.
 
  print $record->line;
 
+=method field_map
+
+Returns an arrayref of hashrefs where the name is the record name and 
+the value is an arrayref of the start position and length of that field.
+
+ # print the start position of the FILE_CREATION_DATE field
+ print $record->field_map->[4]->{FILE_CREATION_DATE}->[0]; # 11
+
 =method RECORD_TYPE
 
 This field contains the Record identifier, which will always be “HEADER” for the Header Record.
@@ -113,7 +121,7 @@ The format is: HHMMSS
 
 This field contains a Sequential Number, where each time a file is sent it will be incrementally higher than that in the previous file. It is intended to identify whether the file is a duplicate and ensure there has been no missing file.
 
-A sequential number with a prefix of “A” indicates an Adhoc file.
+A sequential number with a prefix of “A” indicates an Ad-hoc file.
 
 =method FILE_ID
 

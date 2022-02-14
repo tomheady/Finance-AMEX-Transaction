@@ -11,20 +11,18 @@ sub field_map {
   my ($self) = @_;
 
   return [
-    {RECORD_TYPE                             => [1, 10]},
-    {PAYEE_MERCHANT_ID                       => [11, 15]},
-    {SETTLEMENT_ACCOUNT_TYPE_CODE            => [26, 3]},
-    {AMERICAN_EXPRESS_PAYMENT_NUMBER         => [29, 10]},
-    {PAYMENT_DATE                            => [39, 8]},
-    {PAYMENT_CURRENCY                        => [47, 3]},
-
-    {SUBMISSION_MERCHANT_ID                  => [50, 15]},
-    {BUSINESS_SUBMISSION_DATE                => [65, 8]},
-    {AMERICAN_EXPRESS_PROCESSING_DATE        => [73, 8]},
-    {SUBMISSION_INVOICE_NUMBER               => [81, 15]},
-    {SUBMISSION_CURRENCY                     => [96, 3]},
-
-    {MERCHANT_LOCATION_ID                    => [99, 15]},
+    {RECORD_TYPE                             => [1,   10]},
+    {PAYEE_MERCHANT_ID                       => [11,  15]},
+    {SETTLEMENT_ACCOUNT_TYPE_CODE            => [26,  3]},
+    {AMERICAN_EXPRESS_PAYMENT_NUMBER         => [29,  10]},
+    {PAYMENT_DATE                            => [39,  8]},
+    {PAYMENT_CURRENCY                        => [47,  3]},
+    {SUBMISSION_MERCHANT_ID                  => [50,  15]},
+    {BUSINESS_SUBMISSION_DATE                => [65,  8]},
+    {AMERICAN_EXPRESS_PROCESSING_DATE        => [73,  8]},
+    {SUBMISSION_INVOICE_NUMBER               => [81,  15]},
+    {SUBMISSION_CURRENCY                     => [96,  3]},
+    {MERCHANT_LOCATION_ID                    => [99,  15]},
     {INVOICE_REFERENCE_NUMBER                => [114, 30]},
     {SELLER_ID                               => [144, 20]},
     {CARDMEMBER_ACCOUNT_NUMBER               => [164, 19]},
@@ -50,12 +48,10 @@ sub field_map {
     {SUBSEQUENT_INSTALLMENT_AMOUNT           => [384, 16]},
     {NUMBER_OF_INSTALLMENTS                  => [400, 5]},
     {INSTALLMENT_NUMBER                      => [405, 5]},
-
     {FILLER1                                 => [410, 15]},
-
     {SERVICE_FEE_AMOUNT                      => [425, 16]},
     {ACCELERATION_AMOUNT                     => [441, 16]},
-    {FILLER2                                 => [457, 344]}
+    {FILLER2                                 => [457, 344]},
   ];
 }
 
@@ -66,14 +62,12 @@ sub PAYEE_MERCHANT_ID                       {return $_[0]->_get_column('PAYEE_ME
 sub SETTLEMENT_ACCOUNT_TYPE_CODE            {return $_[0]->_get_column('SETTLEMENT_ACCOUNT_TYPE_CODE')}
 sub AMERICAN_EXPRESS_PAYMENT_NUMBER         {return $_[0]->_get_column('AMERICAN_EXPRESS_PAYMENT_NUMBER')}
 sub PAYMENT_DATE                            {return $_[0]->_get_column('PAYMENT_DATE')}
-
 sub PAYMENT_CURRENCY                        {return $_[0]->_get_column('PAYMENT_CURRENCY')}
 sub SUBMISSION_MERCHANT_ID                  {return $_[0]->_get_column('SUBMISSION_MERCHANT_ID')}
 sub BUSINESS_SUBMISSION_DATE                {return $_[0]->_get_column('BUSINESS_SUBMISSION_DATE')}
 sub AMERICAN_EXPRESS_PROCESSING_DATE        {return $_[0]->_get_column('AMERICAN_EXPRESS_PROCESSING_DATE')}
 sub SUBMISSION_INVOICE_NUMBER               {return $_[0]->_get_column('SUBMISSION_INVOICE_NUMBER')}
 sub SUBMISSION_CURRENCY                     {return $_[0]->_get_column('SUBMISSION_CURRENCY')}
-
 sub MERCHANT_LOCATION_ID                    {return $_[0]->_get_column('MERCHANT_LOCATION_ID')}
 sub INVOICE_REFERENCE_NUMBER                {return $_[0]->_get_column('INVOICE_REFERENCE_NUMBER')}
 sub SELLER_ID                               {return $_[0]->_get_column('SELLER_ID')}
@@ -90,7 +84,6 @@ sub MERCHANT_CATEGORY_CODE                  {return $_[0]->_get_column('MERCHANT
 sub CARDMEMBER_REFERENCE_NUMBER             {return $_[0]->_get_column('CARDMEMBER_REFERENCE_NUMBER')}
 sub ACQUIRER_REFERENCE_NUMBER               {return $_[0]->_get_column('ACQUIRER_REFERENCE_NUMBER')}
 sub DATA_QUALITY_NON_COMPLIANT_INDICATOR    {return $_[0]->_get_column('DATA_QUALITY_NON_COMPLIANT_INDICATOR')}
-
 sub DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_1 {return $_[0]->_get_column('DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_1')}
 sub DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_2 {return $_[0]->_get_column('DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_2')}
 sub DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_3 {return $_[0]->_get_column('DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_3')}
@@ -103,7 +96,6 @@ sub NUMBER_OF_INSTALLMENTS                  {return $_[0]->_get_column('NUMBER_O
 sub INSTALLMENT_NUMBER                      {return $_[0]->_get_column('INSTALLMENT_NUMBER')}
 sub SERVICE_FEE_AMOUNT                      {return $_[0]->_get_column('SERVICE_FEE_AMOUNT')}
 sub ACCELERATION_AMOUNT                     {return $_[0]->_get_column('ACCELERATION_AMOUNT')}
-
 
 1;
 
@@ -157,6 +149,14 @@ This will always return the string TRANSACTION.
 Returns the full line that is represented by this object.
 
  print $record->line;
+
+=method field_map
+
+Returns an arrayref of hashrefs where the name is the record name and 
+the value is an arrayref of the start position and length of that field.
+
+ # print the start position of the PAYMENT_DATE field
+ print $record->field_map->[4]->{PAYMENT_DATE}->[0]; # 39
 
 =method RECORD_TYPE
 
@@ -347,7 +347,7 @@ Valid values include the following:
 
 This field is only applicable in the U.S. and Canada. Where not relevant this field will be character space filled (fixed format) or blank (delimited formats).
 
-=method DATA_QUALITY_NON-COMPLIANT_ERROR_CODE_1, DATA_QUALITY_NON-COMPLIANT_ERROR_CODE_2, DATA_QUALITY_NON-COMPLIANT_ERROR_CODE_3, DATA_QUALITY_NON-COMPLIANT_ERROR_CODE_4
+=method DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_1 DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_2 DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_3 DATA_QUALITY_NON_COMPLIANT_ERROR_CODE_4
 
 These fields contain field-level Non-compliant Error Code(s) applicable to this transaction.
 

@@ -1,9 +1,11 @@
+#!/usr/bin/env perl
+
 use strict;
 use warnings;
 
-use Test::More;# tests => 2692;
+use Test::More tests => 2692;
 
-BEGIN {use_ok('Finance::AMEX::Transaction')};
+BEGIN {use_ok('Finance::AMEX::Transaction')}
 
 use lib '.';
 use t::lib::CompareFile;
@@ -11,24 +13,23 @@ use t::lib::CompareFile;
 my $file = 't/data/AMEX/SAMPLE.GRRCN Delimited (US) v1.2.txt';
 
 my $counts = {
-  HEADER      => {want =>  1, have => 0},
-  TRAILER     => {want =>  1, have => 0},
-  SUMMARY     => {want =>  1, have => 0},
-  TAXRECORD   => {want =>  0, have => 0},
-  SUBMISSION  => {want =>  2, have => 0},
+  HEADER      => {want => 1,  have => 0},
+  TRAILER     => {want => 1,  have => 0},
+  SUMMARY     => {want => 1,  have => 0},
+  TAXRECORD   => {want => 0,  have => 0},
+  SUBMISSION  => {want => 2,  have => 0},
   TRANSACTION => {want => 40, have => 0},
   TXNPRICING  => {want => 40, have => 0},
-  CHARGEBACK  => {want =>  6, have => 0},
-  ADJUSTMENT  => {want =>  6, have => 0},
-  FEEREVENUE  => {want =>  1, have => 0},
+  CHARGEBACK  => {want => 6,  have => 0},
+  ADJUSTMENT  => {want => 6,  have => 0},
+  FEEREVENUE  => {want => 1,  have => 0},
 };
 
-my $data = do { local $/; <DATA> };
+my $data = do {local $/ = undef; <DATA>};
 
 t::lib::CompareFile::compare('GRRCN', $file, $data, $counts);
 
 done_testing();
-
 
 __DATA__
 {

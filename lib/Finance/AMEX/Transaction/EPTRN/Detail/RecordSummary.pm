@@ -10,23 +10,22 @@ use base 'Finance::AMEX::Transaction::EPTRN::Base';
 sub field_map {
   return {
 
-    TLRR_AMEX_PAYEE_NUMBER     => [1, 10],
-    TLRR_AMEX_SE_NUMBER        => [11, 10],
-    TLRR_SE_UNIT_NUMBER        => [21, 10],
-    TLRR_PAYMENT_YEAR          => [31, 4],
-    TLRR_PAYMENT_NUMBER        => [35, 8],
-    TLRR_PAYMENT_NUMBER_DATE   => [35, 3],
-    TLRR_PAYMENT_NUMBER_TYPE   => [38, 1],
-    TLRR_PAYMENT_NUMBER_NUMBER => [39, 4],
-    TLRR_RECORD_TYPE           => [43, 1],
-    TLRR_DETAIL_RECORD_TYPE    => [44, 2],
-    TLRR_SE_BUSINESS_DATE      => [46, 7],
-    TLRR_AMEX_PROCESS_DATE     => [53, 7],
-    TLRR_SOC_INVOICE_NUMBER    => [60, 6],
-    TLRR_SOC_AMOUNT            => [66, 13],
-
-    TLRR_ROC_AMOUNT            => [79, 13],
-    TLRR_CM_NUMBER             => [92, 15],
+    TLRR_AMEX_PAYEE_NUMBER     => [1,   10],
+    TLRR_AMEX_SE_NUMBER        => [11,  10],
+    TLRR_SE_UNIT_NUMBER        => [21,  10],
+    TLRR_PAYMENT_YEAR          => [31,  4],
+    TLRR_PAYMENT_NUMBER        => [35,  8],
+    TLRR_PAYMENT_NUMBER_DATE   => [35,  3],
+    TLRR_PAYMENT_NUMBER_TYPE   => [38,  1],
+    TLRR_PAYMENT_NUMBER_NUMBER => [39,  4],
+    TLRR_RECORD_TYPE           => [43,  1],
+    TLRR_DETAIL_RECORD_TYPE    => [44,  2],
+    TLRR_SE_BUSINESS_DATE      => [46,  7],
+    TLRR_AMEX_PROCESS_DATE     => [53,  7],
+    TLRR_SOC_INVOICE_NUMBER    => [60,  6],
+    TLRR_SOC_AMOUNT            => [66,  13],
+    TLRR_ROC_AMOUNT            => [79,  13],
+    TLRR_CM_NUMBER             => [92,  15],
     TLRR_CM_REF_NO             => [107, 11],
     TLRR_SE_REF                => [118, 9],
     TLRR_ROC_NUMBER            => [137, 10],
@@ -58,7 +57,6 @@ sub TLRR_SE_BUSINESS_DATE      {return $_[0]->_get_column('TLRR_SE_BUSINESS_DATE
 sub TLRR_AMEX_PROCESS_DATE     {return $_[0]->_get_column('TLRR_AMEX_PROCESS_DATE')}
 sub TLRR_SOC_INVOICE_NUMBER    {return $_[0]->_get_column('TLRR_SOC_INVOICE_NUMBER')}
 sub TLRR_SOC_AMOUNT            {return $_[0]->_get_column('TLRR_SOC_AMOUNT')}
-
 sub TLRR_ROC_AMOUNT            {return $_[0]->_get_column('TLRR_ROC_AMOUNT')}
 sub TLRR_CM_NUMBER             {return $_[0]->_get_column('TLRR_CM_NUMBER')}
 sub TLRR_CM_REF_NO             {return $_[0]->_get_column('TLRR_CM_REF_NO')}
@@ -126,6 +124,14 @@ This will always return the string ROC_DETAIL.
 Returns the full line that is represented by this object.
 
  print $record->line;
+
+=method field_map
+
+Returns an arrayref of hashrefs where the name is the record name and 
+the value is an arrayref of the start position and length of that field.
+
+ # print the start position of the TLRR_PAYMENT_YEAR field
+ print $record->field_map->[3]->{TLRR_PAYMENT_YEAR}->[0]; # 31
 
 =method TLRR_AMEX_PAYEE_NUMBER
 
@@ -254,7 +260,7 @@ This field contains the Cardmember (Account) Number that corresponds to this tra
 
 =method TLRR_CM_REF_NO
 
-This field contains the Cardmember Reference Number assigned to this transaction by the Cardmember, at the time the sale was executed. This data is primarily used in the CPC/Corporate Purchasing Card (a.k.a., CPS/Corporate Purchasing Solutions Card) environment. If this field is populated, this value is used by the Cardmember’s organization for tracking and accounting purposes.
+This field contains the Cardmember Reference Number assigned to this transaction by the Cardmember, at the time the sale was executed. This data is primarily used in the CPC/Corporate Purchasing Card (a.k.a., CPS/Corporate Purchasing Solutions Card) environment. If this field is populated, this value is used by the Card members organization for tracking and accounting purposes.
 
 =method TLRR_SE_REF
 
@@ -284,7 +290,7 @@ This field contains the SE (Invoice) Reference Number assigned to this transacti
 
 This entry may be a reference to the Record of Charge (ROC), order number, invoice number, or any other merchant-designated combination of letters and numerals that was intended to aid the merchant in the retrieval of supporting documentation, in case of inquiry or other post-transaction correspondence.
 
-=method NON-COMPLIANT_INDICATOR
+=method NON_COMPLIANT_INDICATOR
 
 This field contains the Non-Compliant Indicator.
 
@@ -297,7 +303,7 @@ Valid values include the following:
 
 Note: Tilde (~) represents a character space.
 
-=method NON-COMPLIANT_ERROR_CODE_1 NON-COMPLIANT_ERROR_CODE_2 NON-COMPLIANT_ERROR_CODE_3 NON-COMPLIANT_ERROR_CODE_4
+=method NON_COMPLIANT_ERROR_CODE_1 NON_COMPLIANT_ERROR_CODE_2 NON_COMPLIANT_ERROR_CODE_3 NON_COMPLIANT_ERROR_CODE_4
 
 These fields contain field-level Non-compliant Error Code(s) applicable to this Record of Charge (ROC).
 
@@ -313,7 +319,7 @@ If unused, this field is character space filled.
 
 Note: One or more of these fields may be populated only if this Record of Charge (ROC) is non-compliant as indicated by the value “A” in the preceding NON-COMPLIANT_INDICATOR field. For more information, see NON-COMPLIANT_INDICATOR.
 
-=method NON-SWIPED_INDICATOR
+=method NON_SWIPED_INDICATOR
 
 This field contains the Non-Swiped Indicator. This entry indicates if the American Express or American Express Partner’s Cardmember Account Number for this transaction was manually entered; and either the Card was not present, or the Card’s magnetic stripe or chip could not be read by the POS device. Transactions are reviewed utilizing the Point of Sale Data Code (value “C”) or Authorization Code (value “H”) ”) or Non-Swipe ADJ App-In Code (value “Z”).
 

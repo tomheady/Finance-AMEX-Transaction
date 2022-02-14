@@ -9,7 +9,7 @@ use base 'Finance::AMEX::Transaction::GRRCN::Base';
 
 sub field_map {
   return [
-    {RECORD_TYPE        => [1, 10]},
+    {RECORD_TYPE        => [1,  10]},
     {SEQUENTIAL_NUMBER  => [11, 10]},
     {TOTAL_RECORD_COUNT => [21, 10]},
     {FILLER1            => [31, 770]},
@@ -30,7 +30,7 @@ __END__
 
 =head1 NAME
 
-Finance::AMEX::Transaction::GRRCN::Footer - Object methods for AMEX Reconciliation file footer records.
+Finance::AMEX::Transaction::GRRCN::Trailer - Object methods for AMEX Reconciliation file footer records.
 
 =head1 SYNOPSIS
 
@@ -75,6 +75,14 @@ Returns the full line that is represented by this object.
 
  print $record->line;
 
+=method field_map
+
+Returns an arrayref of hashrefs where the name is the record name and 
+the value is an arrayref of the start position and length of that field.
+
+ # print the start position of the SEQUENTIAL_NUMBER field
+ print $record->field_map->[1]->{SEQUENTIAL_NUMBER}->[0]; # 11
+
 =method RECORD_TYPE
 
 This field contains the Record identifier, which will always be “TRAILER” for the Trailer Record.
@@ -83,7 +91,7 @@ This field contains the Record identifier, which will always be “TRAILER” fo
 
 This field contains the Sequential Number which is the same as the sequential number in the Header Record.
 
-A sequential number with a prefix of “A” indicates an Adhoc file.
+A sequential number with a prefix of “A” indicates an Ad-hoc file.
 
 =method TOTAL_RECORD_COUNT
 

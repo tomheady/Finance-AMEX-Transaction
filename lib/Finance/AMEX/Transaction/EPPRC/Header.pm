@@ -9,8 +9,8 @@ use base 'Finance::AMEX::Transaction::EPPRC::Base';
 
 sub field_map {
   return {
-    DF_HDR_RECORD_TYPE => [1, 5],
-    DF_HDR_DATE        => [6, 8],
+    DF_HDR_RECORD_TYPE => [1,  5],
+    DF_HDR_DATE        => [6,  8],
     DF_HDR_TIME        => [14, 4],
     DF_HDR_FILE_ID     => [18, 6],
     DF_HDR_FILE_NAME   => [24, 20],
@@ -77,6 +77,14 @@ This will always return the string HEADER.
 Returns the full line that is represented by this object.
 
  print $record->line;
+
+=method field_map
+
+Returns a hashref where the name is the record name and 
+the value is an arrayref of the start position and length of that field.
+
+ # print the start position of the DF_HDR_DATE field
+ print $record->field_map->{DF_HDR_DATE}->[0]; # 6
 
 =method DF_HDR_RECORD_TYPE
 

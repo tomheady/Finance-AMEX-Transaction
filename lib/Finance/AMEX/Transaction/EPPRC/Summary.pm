@@ -9,16 +9,14 @@ use base 'Finance::AMEX::Transaction::EPPRC::Base';
 
 sub field_map {
   return {
-    AMEX_PAYEE_NUMBER     => [1, 10],
+    AMEX_PAYEE_NUMBER     => [1,  10],
     AMEX_SORT_FIELD_1     => [11, 10],
     AMEX_SORT_FIELD_2     => [21, 10],
     PAYMENT_YEAR          => [31, 4],
     PAYMENT_NUMBER        => [35, 8],
-
     PAYMENT_NUMBER_DATE   => [35, 3],
     PAYMENT_NUMBER_TYPE   => [38, 1],
     PAYMENT_NUMBER_NUMBER => [39, 4],
-
     RECORD_TYPE           => [43, 1],
     DETAIL_RECORD_TYPE    => [44, 2],
     PAYMENT_DATE          => [46, 7],
@@ -36,11 +34,9 @@ sub AMEX_SORT_FIELD_1     {return $_[0]->_get_column('AMEX_SORT_FIELD_1')}
 sub AMEX_SORT_FIELD_2     {return $_[0]->_get_column('AMEX_SORT_FIELD_2')}
 sub PAYMENT_YEAR          {return $_[0]->_get_column('PAYMENT_YEAR')}
 sub PAYMENT_NUMBER        {return $_[0]->_get_column('PAYMENT_NUMBER')}
-
 sub PAYMENT_NUMBER_DATE   {return $_[0]->_get_column('PAYMENT_NUMBER_DATE')}
 sub PAYMENT_NUMBER_TYPE   {return $_[0]->_get_column('PAYMENT_NUMBER_TYPE')}
 sub PAYMENT_NUMBER_NUMBER {return $_[0]->_get_column('PAYMENT_NUMBER_NUMBER')}
-
 sub RECORD_TYPE           {return $_[0]->_get_column('RECORD_TYPE')}
 sub DETAIL_RECORD_TYPE    {return $_[0]->_get_column('DETAIL_RECORD_TYPE')}
 sub PAYMENT_DATE          {return $_[0]->_get_column('PAYMENT_DATE')}
@@ -101,6 +97,14 @@ This will always return the string SUMMARY.
 Returns the full line that is represented by this object.
 
  print $record->line;
+
+=method field_map
+
+Returns a hashref where the name is the record name and 
+the value is an arrayref of the start position and length of that field.
+
+ # print the start position of the PAYMENT_YEAR field
+ print $record->field_map->{PAYMENT_YEAR}->[0]; # 31
 
 =method AMEX_PAYEE_NUMBER
 

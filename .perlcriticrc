@@ -1,0 +1,35 @@
+severity = 1
+
+[Subroutines::RequireArgUnpacking]
+short_subroutine_statements = 1
+
+[InputOutput::RequireBriefOpen]
+lines = 40
+
+# allow private subroutines named _get_column, we use that in the base classes
+[Subroutines::ProhibitUnusedPrivateSubroutines]
+allow = _get_column
+
+# remove 'record' from the list of prohibited ambiguous names
+[NamingConventions::ProhibitAmbiguousNames]
+forbid = abstract bases close contract last left no right second set
+
+[Variables::ProhibitPunctuationVars]
+allow = $! $/
+
+[Documentation::PodSpelling]
+stop_words_file = t/data/stopwords.txt
+
+[NamingConventions::Capitalization]
+packages = :no_restriction
+# this is not working for some reason:
+# package_exemptions = t::lib::CompareFile
+
+[-CodeLayout::RequireTidyCode]
+[-Modules::RequireVersionVar]
+[-ValuesAndExpressions::ProhibitNoisyQuotes]
+[-Documentation::RequirePodSections]
+[-ValuesAndExpressions::ProhibitMagicNumbers]
+[-ValuesAndExpressions::ProhibitEmptyQuotes]
+[-CodeLayout::ProhibitParensWithBuiltins]
+[-ValuesAndExpressions::ProhibitInterpolationOfLiterals]

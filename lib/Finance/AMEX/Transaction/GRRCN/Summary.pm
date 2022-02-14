@@ -9,15 +9,15 @@ use base 'Finance::AMEX::Transaction::GRRCN::Base';
 
 sub field_map {
   return [
-    {RECORD_TYPE                       => [1, 10]},
-    {PAYEE_MERCHANT_ID                 => [11, 15]},
-    {SETTLEMENT_ACCOUNT_TYPE_CODE      => [26, 3]},
-    {AMERICAN_EXPRESS_PAYMENT_NUMBER   => [29, 10]},
-    {PAYMENT_DATE                      => [39, 8]},
-    {PAYMENT_CURRENCY                  => [47, 3]},
-    {UNIQUE_PAYMENT_REFERENCE_NUMBER   => [50, 18]},
-    {PAYMENT_NET_AMOUNT                => [68, 16]},
-    {PAYMENT_GROSS_AMOUNT              => [84, 16]},
+    {RECORD_TYPE                       => [1,   10]},
+    {PAYEE_MERCHANT_ID                 => [11,  15]},
+    {SETTLEMENT_ACCOUNT_TYPE_CODE      => [26,  3]},
+    {AMERICAN_EXPRESS_PAYMENT_NUMBER   => [29,  10]},
+    {PAYMENT_DATE                      => [39,  8]},
+    {PAYMENT_CURRENCY                  => [47,  3]},
+    {UNIQUE_PAYMENT_REFERENCE_NUMBER   => [50,  18]},
+    {PAYMENT_NET_AMOUNT                => [68,  16]},
+    {PAYMENT_GROSS_AMOUNT              => [84,  16]},
     {PAYMENT_DISCOUNT_AMOUNT           => [100, 16]},
     {PAYMENT_SERVICE_FEE_AMOUNT        => [116, 16]},
     {PAYMENT_ADJUSTMENT_AMOUNT         => [132, 16]},
@@ -104,6 +104,14 @@ This will always return the string SUMMARY.
 Returns the full line that is represented by this object.
 
  print $record->line;
+
+=method field_map
+
+Returns an arrayref of hashrefs where the name is the record name and 
+the value is an arrayref of the start position and length of that field.
+
+ # print the start position of the PAYMENT_DATE field
+ print $record->field_map->[4]->{PAYMENT_DATE}->[0]; # 39
 
 =method RECORD_TYPE
 

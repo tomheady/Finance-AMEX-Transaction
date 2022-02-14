@@ -9,8 +9,8 @@ use base 'Finance::AMEX::Transaction::EPTRN::Base';
 
 sub field_map {
   return {
-    DF_TRL_RECORD_TYPE   => [1, 5],
-    DF_TRL_DATE          => [6, 8],
+    DF_TRL_RECORD_TYPE   => [1,  5],
+    DF_TRL_DATE          => [6,  8],
     DF_TRL_TIME          => [14, 4],
     DF_TRL_FILE_ID       => [18, 6],
     DF_TRL_FILE_NAME     => [24, 20],
@@ -37,7 +37,7 @@ __END__
 
 =head1 NAME
 
-Finance::AMEX::Transaction::EPTRN::Footer - Object methods for AMEX Transaction/Invoice Level Reconciliation (EPTRN) Trailer Rows
+Finance::AMEX::Transaction::EPTRN::Trailer - Object methods for AMEX Transaction/Invoice Level Reconciliation (EPTRN) Trailer Rows
 
 =head1 SYNOPSIS
 
@@ -81,6 +81,14 @@ This will always return the string TRAILER.
 Returns the full line that is represented by this object.
 
  print $record->line;
+
+=method field_map
+
+Returns a hashref where the name is the record name and 
+the value is an arrayref of the start position and length of that field.
+
+ # print the start position of the DF_TRL_DATE field
+ print $record->field_map->{DF_TRL_DATE}->[0]; # 6
 
 =method DF_TRL_RECORD_TYPE
 

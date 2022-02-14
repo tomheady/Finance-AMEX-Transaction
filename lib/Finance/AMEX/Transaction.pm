@@ -187,11 +187,11 @@ The file is in a fixed width format.
 
 = csv
 
-The file has comma seperated values.
+The file has comma separated values.
 
 = tsv
 
-The file has tab seperated values.
+The file has tab separated values.
 
 =end :list
 

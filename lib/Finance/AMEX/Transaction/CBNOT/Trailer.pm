@@ -9,18 +9,16 @@ use base 'Finance::AMEX::Transaction::CBNOT::Base';
 
 sub field_map {
   return {
-    REC_TYPE                => [1, 1],
-    AMEX_APPL_AREA          => [2, 100],
-
-    APPLICATION_SYSTEM_CODE => [2, 2],
-    FILE_TYPE_CODE          => [4, 2],
-    FILE_CREATION_DATE      => [6, 8],
-    FILE_SEQUENCE_NUMBER    => [20, 6],
-    JULIAN_DATE             => [22, 2],
-    AMEX_TOTAL_RECORDS      => [27, 5],
-    CONFIRM_RECORD_COUNT    => [36, 9],
-    AMEX_JOB_NUMBER         => [45, 9],
-
+    REC_TYPE                => [1,   1],
+    AMEX_APPL_AREA          => [2,   100],
+    APPLICATION_SYSTEM_CODE => [2,   2],
+    FILE_TYPE_CODE          => [4,   2],
+    FILE_CREATION_DATE      => [6,   8],
+    FILE_SEQUENCE_NUMBER    => [20,  6],
+    JULIAN_DATE             => [22,  2],
+    AMEX_TOTAL_RECORDS      => [27,  5],
+    CONFIRM_RECORD_COUNT    => [36,  9],
+    AMEX_JOB_NUMBER         => [45,  9],
     SAID                    => [102, 6],
     DATATYPE                => [108, 5],
     CCYYDDD                 => [113, 7],
@@ -45,10 +43,10 @@ sub DATATYPE                {return $_[0]->_get_column('DATATYPE')}
 sub CCYYDDD                 {return $_[0]->_get_column('CCYYDDD')}
 
 # perl does not allow 0 at the beginning of a sub name,
-# so we strip of the filler character in both the subname
+# so we strip off the filler character in both the subname
 # and the return value
-sub HHMMSS                  {return substr($_[0]->_get_column('HHMMSS'), 1, 6)}
-sub STARS_FILESEQ_NB        {return $_[0]->_get_column('STARS_FILESEQ_NB')}
+sub HHMMSS           {return substr($_[0]->_get_column('HHMMSS'), 1, 6)}
+sub STARS_FILESEQ_NB {return $_[0]->_get_column('STARS_FILESEQ_NB')}
 
 1;
 
@@ -102,6 +100,14 @@ This will always return the string TRAILER.
 Returns the full line that is represented by this object.
 
  print $record->line;
+
+=method field_map
+
+Returns a hashref where the name is the record name and 
+the value is an arrayref of the start position and length of that field.
+
+ # print the start position of the FILE_CREATION_DATE field
+ print $record->field_map->{FILE_CREATION_DATE}->[0]; # 6
 
 =method REC_TYPE
 

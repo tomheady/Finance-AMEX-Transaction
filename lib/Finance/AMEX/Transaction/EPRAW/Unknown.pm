@@ -7,9 +7,7 @@ use warnings;
 
 sub new {
   my ($class, %props) = @_;
-  my $self = bless {
-    _line => $props{line},
-  }, $class;
+  my $self = bless {_line => $props{line}}, $class;
   return $self;
 }
 

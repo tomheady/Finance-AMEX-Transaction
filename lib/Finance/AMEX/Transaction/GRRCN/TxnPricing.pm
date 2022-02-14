@@ -12,16 +12,16 @@ sub field_map {
 
   # order is important here for the CSV and TSV file formats
   my $map = [
-    {RECORD_TYPE                     => [1, 10]},
-    {PAYEE_MERCHANT_ID               => [11, 15]},
-    {SETTLEMENT_ACCOUNT_TYPE_CODE    => [26, 3]},
-    {AMERICAN_EXPRESS_PAYMENT_NUMBER => [29, 10]},
-    {PAYMENT_DATE                    => [39, 8]},
-    {PAYMENT_CURRENCY                => [47, 3]},
-    {SUBMISSION_MERCHANT_ID          => [50, 15]},
-    {MERCHANT_LOCATION_ID            => [65, 15]},
-    {FILLER1                         => [80, 15]},
-    {INVOICE_REFERENCE_NUMBER        => [95, 30]},
+    {RECORD_TYPE                     => [1,   10]},
+    {PAYEE_MERCHANT_ID               => [11,  15]},
+    {SETTLEMENT_ACCOUNT_TYPE_CODE    => [26,  3]},
+    {AMERICAN_EXPRESS_PAYMENT_NUMBER => [29,  10]},
+    {PAYMENT_DATE                    => [39,  8]},
+    {PAYMENT_CURRENCY                => [47,  3]},
+    {SUBMISSION_MERCHANT_ID          => [50,  15]},
+    {MERCHANT_LOCATION_ID            => [65,  15]},
+    {FILLER1                         => [80,  15]},
+    {INVOICE_REFERENCE_NUMBER        => [95,  30]},
     {SELLER_ID                       => [125, 20]},
     {CARDMEMBER_ACCOUNT_NUMBER       => [145, 19]},
     {TRANSACTION_AMOUNT              => [164, 16]},
@@ -31,20 +31,19 @@ sub field_map {
     {FEE_AMOUNT                      => [197, 22]},
     {DISCOUNT_RATE                   => [219, 7]},
     {DISCOUNT_AMOUNT                 => [226, 22]},
-
     {FILLER3                         => [248, 553]},
   ];
 
-  if ($self->file_version == 3.02) {
-    pop @{$map}; # the last filler column changes for v3.02, so we remove it
+  if ($self->file_version >= 3.01) {
+    pop @{$map};    # the last filler column changes for v3.01, so we remove it
 
     push @{$map} => (
-      {ROUNDED_FEE_AMOUNT                     => [248, 16]}, # v3.02
-      {ROUNDED_DISCOUNT_AMOUNT                => [264, 16]}, # v3.02
-      {FEE_AMOUNT_SETTLEMENT_CURRENCY         => [280, 22]}, # v3.02
-      {DISCOUNT_AMOUNT_SETTLEMENT_CURRENCY    => [302, 22]}, # v3.02
-      {TRANSACTION_AMOUNT_SETTLEMENT_CURRENCY => [324, 16]}, # v3.02
-      {FILLER3                                => [340, 461]}, # v3.02
+      {ROUNDED_FEE_AMOUNT                     => [248, 16]},     # v3.01
+      {ROUNDED_DISCOUNT_AMOUNT                => [264, 16]},     # v3.01
+      {FEE_AMOUNT_SETTLEMENT_CURRENCY         => [280, 22]},     # v3.01
+      {DISCOUNT_AMOUNT_SETTLEMENT_CURRENCY    => [302, 22]},     # v3.01
+      {TRANSACTION_AMOUNT_SETTLEMENT_CURRENCY => [324, 16]},     # v3.01
+      {FILLER3                                => [340, 461]},    # v3.01
     );
   }
 
@@ -60,9 +59,7 @@ sub AMERICAN_EXPRESS_PAYMENT_NUMBER {return $_[0]->_get_column('AMERICAN_EXPRESS
 sub PAYMENT_DATE                    {return $_[0]->_get_column('PAYMENT_DATE')}
 sub PAYMENT_CURRENCY                {return $_[0]->_get_column('PAYMENT_CURRENCY')}
 sub SUBMISSION_MERCHANT_ID          {return $_[0]->_get_column('SUBMISSION_MERCHANT_ID')}
-
 sub MERCHANT_LOCATION_ID            {return $_[0]->_get_column('MERCHANT_LOCATION_ID')}
-
 sub INVOICE_REFERENCE_NUMBER        {return $_[0]->_get_column('INVOICE_REFERENCE_NUMBER')}
 sub SELLER_ID                       {return $_[0]->_get_column('SELLER_ID')}
 sub CARDMEMBER_ACCOUNT_NUMBER       {return $_[0]->_get_column('CARDMEMBER_ACCOUNT_NUMBER')}
@@ -73,11 +70,11 @@ sub FEE_AMOUNT                      {return $_[0]->_get_column('FEE_AMOUNT')}
 sub DISCOUNT_RATE                   {return $_[0]->_get_column('DISCOUNT_RATE')}
 sub DISCOUNT_AMOUNT                 {return $_[0]->_get_column('DISCOUNT_AMOUNT')}
 
-sub ROUNDED_FEE_AMOUNT                     {return;return $_[0]->_get_column('ROUNDED_FEE_AMOUNT')}
-sub ROUNDED_DISCOUNT_AMOUNT                {return;return $_[0]->_get_column('ROUNDED_DISCOUNT_AMOUNT')}
-sub FEE_AMOUNT_SETTLEMENT_CURRENCY         {return;return $_[0]->_get_column('FEE_AMOUNT_SETTLEMENT_CURRENCY')}
-sub DISCOUNT_AMOUNT_SETTLEMENT_CURRENCY    {return;return $_[0]->_get_column('DISCOUNT_AMOUNT_SETTLEMENT_CURRENCY')}
-sub TRANSACTION_AMOUNT_SETTLEMENT_CURRENCY {return;return $_[0]->_get_column('TRANSACTION_AMOUNT_SETTLEMENT_CURRENCY')}
+sub ROUNDED_FEE_AMOUNT                     {return $_[0]->_get_column('ROUNDED_FEE_AMOUNT')}
+sub ROUNDED_DISCOUNT_AMOUNT                {return $_[0]->_get_column('ROUNDED_DISCOUNT_AMOUNT')}
+sub FEE_AMOUNT_SETTLEMENT_CURRENCY         {return $_[0]->_get_column('FEE_AMOUNT_SETTLEMENT_CURRENCY')}
+sub DISCOUNT_AMOUNT_SETTLEMENT_CURRENCY    {return $_[0]->_get_column('DISCOUNT_AMOUNT_SETTLEMENT_CURRENCY')}
+sub TRANSACTION_AMOUNT_SETTLEMENT_CURRENCY {return $_[0]->_get_column('TRANSACTION_AMOUNT_SETTLEMENT_CURRENCY')}
 
 1;
 
@@ -131,6 +128,14 @@ This will always return the string TXNPRICING.
 Returns the full line that is represented by this object.
 
  print $record->line;
+
+=method field_map
+
+Returns an arrayref of hashrefs where the name is the record name and 
+the value is an arrayref of the start position and length of that field.
+
+ # print the start position of the PAYMENT_DATE field
+ print $record->field_map->[4]->{PAYMENT_DATE}->[0]; # 39
 
 =method RECORD_TYPE
 
@@ -279,15 +284,15 @@ For example: ‘000000000000056789000’ represents a positive amount of 56.789,
 
 =method ROUNDED_FEE_AMOUNT
 
-This field will only be available in v3.01 of the GRRCN format.
+This field will only be available in v3.01 of the GRRCN format.  If you call this method on previous versions it will return undef.
 
 This field contains the Fee Amount charged by American Express for this transaction to two (2) decimal places. If the applied fee is a Fixed Fee, then the Fixed Fee Amount will be displayed in this field. This value is expressed in the Submission currency. For a typical debit ROC/transaction, the fee amount is signed positive.
 
 This field is only applicable in the U.S. and Canada. Where not relevant this field will be zero (0) filled.
 
-=method  ROUNDED_DISCOUNT_AMOUNT
+=method ROUNDED_DISCOUNT_AMOUNT
 
-This field will only be available in v3.01 of the GRRCN format.
+This field will only be available in v3.01 of the GRRCN format.  If you call this method on previous versions it will return undef.
 
 This field contains the Discount Amount charged by American Express for this transaction to two (2) decimal places.
 
@@ -297,9 +302,9 @@ Note: It is also possible that in certain markets which have local goods and ser
 
 This field is only applicable in the U.S. and Canada. Where not relevant this field will be zero (0) filled.
 
-=method  FEE_AMOUNT_SETTLEMENT_CURRENCY
+=method FEE_AMOUNT_SETTLEMENT_CURRENCY
 
-This field will only be available in v3.01 of the GRRCN format.
+This field will only be available in v3.01 of the GRRCN format.  If you call this method on previous versions it will return undef.
 
 This field contains the Fee Amount charged by American Express for this transaction to six (6) decimal places.
 
@@ -320,9 +325,9 @@ Positions 17-22 (6) are decimal places.
 For example:
 ' 000000000000056789000' represents a positive amount of 56.789, while '-000000000000056789000' represents a negative amount of 56.789.
 
-=method  DISCOUNT_AMOUNT_SETTLEMENT_CURRENCY
+=method DISCOUNT_AMOUNT_SETTLEMENT_CURRENCY
 
-This field will only be available in v3.01 of the GRRCN format.
+This field will only be available in v3.01 of the GRRCN format.  If you call this method on previous versions it will return undef.
 
 This field contains the Discount Amount charged by American Express for this transaction to six (6) decimal places.
 
@@ -332,9 +337,9 @@ For a typical debit transaction/ROC, the discount amount is signed positive. The
 
 For example:’ 000000000000056789000’ represents a positive amount of 56.789, while ‘-0000000000000567 represents a negative amount of 56.789.
 
-=method  TRANSACTION_AMOUNT_SETTLEMENT_CURRENCY
+=method TRANSACTION_AMOUNT_SETTLEMENT_CURRENCY
 
-This field will only be available in v3.01 of the GRRCN format.
+This field will only be available in v3.01 of the GRRCN format.  If you call this method on previous versions it will return undef.
 
 This field contains the Transaction or Record of Charge (ROC) Amount for a single transaction.
 

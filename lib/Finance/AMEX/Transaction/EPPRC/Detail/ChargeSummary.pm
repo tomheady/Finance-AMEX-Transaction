@@ -9,23 +9,22 @@ use base 'Finance::AMEX::Transaction::EPPRC::Base';
 
 sub field_map {
   return {
-
-    AMEX_PAYEE_NUMBER           => [1, 10],
-    AMEX_SE_NUMBER              => [11, 10],
-    SE_UNIT_NUMBER              => [21, 10],
-    PAYMENT_YEAR                => [31, 4],
-    PAYMENT_NUMBER              => [35, 8],
-    PAYMENT_NUMBER_DATE         => [35, 3],
-    PAYMENT_NUMBER_TYPE         => [38, 1],
-    PAYMENT_NUMBER_NUMBER       => [39, 4],
-    RECORD_TYPE                 => [43, 1],
-    DETAIL_RECORD_TYPE          => [44, 2],
-    SE_BUSINESS_DATE            => [46, 7],
-    AMEX_PROCESS_DATE           => [53, 7],
-    SOC_INVOICE_NUMBER          => [60, 6],
-    SOC_AMOUNT                  => [66, 11],
-    DISCOUNT_AMOUNT             => [77, 9],
-    SERVICE_FEE_AMOUNT          => [86, 7],
+    AMEX_PAYEE_NUMBER           => [1,   10],
+    AMEX_SE_NUMBER              => [11,  10],
+    SE_UNIT_NUMBER              => [21,  10],
+    PAYMENT_YEAR                => [31,  4],
+    PAYMENT_NUMBER              => [35,  8],
+    PAYMENT_NUMBER_DATE         => [35,  3],
+    PAYMENT_NUMBER_TYPE         => [38,  1],
+    PAYMENT_NUMBER_NUMBER       => [39,  4],
+    RECORD_TYPE                 => [43,  1],
+    DETAIL_RECORD_TYPE          => [44,  2],
+    SE_BUSINESS_DATE            => [46,  7],
+    AMEX_PROCESS_DATE           => [53,  7],
+    SOC_INVOICE_NUMBER          => [60,  6],
+    SOC_AMOUNT                  => [66,  11],
+    DISCOUNT_AMOUNT             => [77,  9],
+    SERVICE_FEE_AMOUNT          => [86,  7],
     NET_SOC_AMOUNT              => [100, 11],
     DISCOUNT_RATE               => [111, 5],
     SERVICE_FEE_RATE            => [116, 5],
@@ -134,6 +133,14 @@ This will always return the string SOC_DETAIL.
 Returns the full line that is represented by this object.
 
  print $record->line;
+
+=method field_map
+
+Returns an arrayref of hashrefs where the name is the record name and 
+the value is an arrayref of the start position and length of that field.
+
+ # print the start position of the PAYMENT_YEAR field
+ print $record->field_map->[3]->{PAYMENT_YEAR}->[0]; # 31
 
 =method AMEX_PAYEE_NUMBER
 

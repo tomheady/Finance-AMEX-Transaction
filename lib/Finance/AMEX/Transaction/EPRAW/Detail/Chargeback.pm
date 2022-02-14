@@ -9,30 +9,28 @@ use base 'Finance::AMEX::Transaction::EPRAW::Base';
 
 sub field_map {
   return {
-
-    AMEX_PAYEE_NUMBER         => [1, 10],
-    AMEX_SE_NUMBER            => [11, 10],
-    SE_UNIT_NUMBER            => [21, 10],
-    PAYMENT_YEAR              => [31, 4],
-    PAYMENT_NUMBER            => [35, 8],
-    PAYMENT_NUMBER_DATE       => [35, 3],
-    PAYMENT_NUMBER_TYPE       => [38, 1],
-    PAYMENT_NUMBER_NUMBER     => [39, 4],
-    RECORD_TYPE               => [43, 1],
-    DETAIL_RECORD_TYPE        => [44, 2],
-    SE_BUSINESS_DATE          => [46, 7],
-    AMEX_PROCESS_DATE         => [53, 7],
-    SOC_INVOICE_NUMBER        => [60, 6],
-    SOC_AMOUNT                => [66, 11],
-    CHARGEBACK_AMOUNT         => [77, 9],
-    DISCOUNT_AMOUNT           => [86, 9],
-    SERVICE_FEE_AMOUNT        => [95, 7],
+    AMEX_PAYEE_NUMBER         => [1,   10],
+    AMEX_SE_NUMBER            => [11,  10],
+    SE_UNIT_NUMBER            => [21,  10],
+    PAYMENT_YEAR              => [31,  4],
+    PAYMENT_NUMBER            => [35,  8],
+    PAYMENT_NUMBER_DATE       => [35,  3],
+    PAYMENT_NUMBER_TYPE       => [38,  1],
+    PAYMENT_NUMBER_NUMBER     => [39,  4],
+    RECORD_TYPE               => [43,  1],
+    DETAIL_RECORD_TYPE        => [44,  2],
+    SE_BUSINESS_DATE          => [46,  7],
+    AMEX_PROCESS_DATE         => [53,  7],
+    SOC_INVOICE_NUMBER        => [60,  6],
+    SOC_AMOUNT                => [66,  11],
+    CHARGEBACK_AMOUNT         => [77,  9],
+    DISCOUNT_AMOUNT           => [86,  9],
+    SERVICE_FEE_AMOUNT        => [95,  7],
     NET_CHARGEBACK_AMOUNT     => [109, 9],
     DISCOUNT_RATE             => [118, 5],
     SERVICE_FEE_RATE          => [123, 5],
     CHARGEBACK_REASON         => [144, 280],
     SERVICE_AGENT_MERCHANT_ID => [430, 15],
-
   };
 }
 
@@ -68,7 +66,7 @@ __END__
 
 =head1 NAME
 
-Finance::AMEX::Transaction::EPRAW::Detail::Chargeback - Object methods for AMEX Reconciliation file chargback detail records.
+Finance::AMEX::Transaction::EPRAW::Detail::Chargeback - Object methods for AMEX Reconciliation file chargeback detail records.
 
 =head1 SYNOPSIS
 
@@ -112,6 +110,14 @@ This will always return the string CHARGEBACK_DETAIL.
 Returns the full line that is represented by this object.
 
  print $record->line;
+
+=method field_map
+
+Returns an arrayref of hashrefs where the name is the record name and 
+the value is an arrayref of the start position and length of that field.
+
+ # print the start position of the PAYMENT_DATE field
+ print $record->field_map->[3]->{PAYMENT_DATE}->[0]; # 31
 
 =method AMEX_PAYEE_NUMBER
 

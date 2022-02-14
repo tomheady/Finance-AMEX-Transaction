@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Text::CSV;
+use Carp 'croak';
 
 use Finance::AMEX::Transaction::GRRCN::Header;
 use Finance::AMEX::Transaction::GRRCN::Summary;
@@ -61,9 +62,9 @@ sub detect_file_format {
   my ($self, $line) = @_;
 
   if (substr($line, 0, 1) eq '"') {
-    if ($line =~ m{","}) {
+    if ($line =~ m{","}xsm) {
       $self->{_file_format} = 'CSV';
-    } elsif ($line =~ m{\"\t\"}) {
+    } elsif ($line =~ m{\"\t\"}xsm) {
       $self->{_file_format} = 'TSV';
     }
 
@@ -87,8 +88,8 @@ sub parse_line {
   if (exists $self->{_type_map}->{$type}) {
 
     my $parsed = $self->{_type_map}->{$type}->new(
-      line => $line,
-      file_format => $self->file_format,
+      line         => $line,
+      file_format  => $self->file_format,
       file_version => $self->{_file_version},
     );
 
@@ -111,12 +112,14 @@ sub detect_line_type {
     return substr($line, 0, 10);
   }
 
-  my $csv = Text::CSV->new ({
+  my $csv = Text::CSV->new({
     binary      => 1,
     quote_char  => '"',
     escape_char => "\\",
-  }) or die "Cannot use CSV: ".Text::CSV->error_diag ();
-  $line =~ s{\s+\z}{}; # csv parser does not like trailing whitespace
+  })
+    or croak 'Cannot use CSV: ' . Text::CSV->error_diag();
+
+  $line =~ s{\s+\z}{}xsm;    # csv parser does not like trailing whitespace
 
   if ($self->file_format eq 'CSV') {
     $csv->sep_char(',');
@@ -242,3 +245,29 @@ Returns a L<Finance::AMEX::Transaction::GRRCN> object.
 Returns one of the L<Finance::AMEX::Transaction::GRRCN::Header>, L<Finance::AMEX::Transaction::GRRCN::Summary>, L<Finance::AMEX::Transaction::GRRCN::TaxRecord>, L<Finance::AMEX::Transaction::GRRCN::Submission>, L<Finance::AMEX::Transaction::GRRCN::Transaction>, L<Finance::AMEX::Transaction::GRRCN::TxnPricing>, L<Finance::AMEX::Transaction::GRRCN::Chargeback>, L<Finance::AMEX::Transaction::GRRCN::Adjustment>, L<Finance::AMEX::Transaction::GRRCN::FeeRevenue>, L<Finance::AMEX::Transaction::GRRCN::Trailer>, or L<Finance::AMEX::Transaction::GRRCN::Unknown> records depending on the contents of the line.
 
  my $record = $grrcn->parse_line('line from a grrcn file');
+
+=method detect_file_format
+
+Returns one of CSV, TSV, or FIXED depending on how the line is formatted.
+You wouldn't normally need to call this.
+
+ my $file_format = $grrcn->detect_file_format('line from a grrcn file');
+
+=method detect_line_type
+
+Returns one of the line types for the GRRCN format.
+You wouldn't normally need to call this.
+
+ my $line_type = $grrcn->detect_line_type('line from a grrcn file');
+
+=method file_format
+
+Returns the previously detected file format.
+
+ my $file_format = $grrcn->file_format;
+
+=method file_version
+
+Returns the detected file version that is parsed from the header.
+
+ my $file_format = $grrcn->file_version;

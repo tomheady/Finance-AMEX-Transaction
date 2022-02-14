@@ -1,0 +1,101 @@
+# I/O control
+-syn   # run perl -c to check syntax (default under unix systems)
+#-st    # send output to standard output, STDOUT
+#-se    # send all error output to standard error output, STDERR
+
+# Basic Options
+--indent-columns=2        # use n columns per indentation level (default n=4)
+--output-line-ending=unix # specify output line ending (s=dos or win, mac, unix)
+
+# Whitespace Control
+--brace-tightness=2          # braces not tight
+--paren-tightness=2          # parens not tight at all
+--square-bracket-tightness=2 # square brackets not tight
+#-bvt=2 # brace vertical tightness
+#-pvt=2
+--block-brace-tightness=2    # curly braces which contain blocks of code
+
+# Line Break Control
+--maximum-line-length=125 # maximum line length;  default n=80
+
+# Break before all operators
+#--want-break-after="!"
+#--want-break-before="% + - * / x != == >= <= =~ !~ < > | & = **= += *= &= <<= &&= -= /= |= >>= ||= //= .= %= ^= x= !"
+#-wbb="% + - * / x != == >= <= =~    < > | &   **= += *= &= <<= &&= -= /= |= >>= ||=     .= %= ^= x="
+
+# allow for "if(! $this)".  Otherwise it does "if(!this)".
+--want-right-space="! ."
+--want-left-space="."
+
+
+
+##############################
+
+# call sub foo ({
+#   arg1 => 1,
+#   arg2 => 2,
+# })
+# 
+# instead of 
+# 
+# call sub foo (
+#   {
+#     arg1 => 1,
+#     arg2 => 2,
+#   }
+# )
+
+--stack-opening-tokens
+--stack-closing-tokens
+
+##############################
+
+# my $foo = {
+#   a => 1,
+#   b => 2,
+# };
+
+--weld-nested-containers
+--vertical-tightness=0
+--vertical-tightness-closing=0
+
+##############################
+
+# push @foo, {
+#   a => 1,
+#   b => 2,
+# };
+# 
+# vs
+# 
+# push @foo, 
+#   {
+#     a => 1,
+#     b => 2,
+#   };
+
+--opening-token-right
+
+##############################
+
+# if (1 == 1) {
+# } else {
+# }
+
+--cuddled-else
+
+##############################
+
+# don't force one item hashes into a single line
+#  my $self = bless {
+#    _type_map => $type_map,
+#  }, $class;
+#
+# vs
+#
+# my $self = bless {_type_map => $type_map,}, $class;
+
+--comma-arrow-breakpoints=1
+
+##############################
+#-novalign
